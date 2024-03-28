@@ -1,7 +1,11 @@
 {
-  "name": "xpressengine-plugin/board",
+  "name": "nineboard/plugin-board",
   "description": "XpressEngine's plugin for bundle (XE)",
-  "keywords": ["xpressengine bundle", "XE board", "Xpressengine3 board"],
+  "keywords": [
+    "xpressengine bundle",
+    "XE board",
+    "Xpressengine3 board"
+  ],
   "version": "1.0.16",
   "support": {
     "email": "developers@xpressengine.com"
@@ -25,7 +29,7 @@
           "class": "Xpressengine\\Plugins\\Board\\Components\\Modules\\BoardModule",
           "name": "Board",
           "description": "XE Board 모듈",
-          "screenshot" : [
+          "screenshot": [
             "/plugins/board/assets/img/screenshots/menuType1.png"
           ]
         },
@@ -33,7 +37,7 @@
           "class": "Xpressengine\\Plugins\\Board\\Components\\Skins\\Board\\Common\\CommonSkin",
           "name": "게시판 기본 스킨",
           "description": "게시판 기본 스킨.",
-          "screenshot" : [
+          "screenshot": [
             "/plugins/board/assets/img/screenshots/default_skin.png"
           ]
         },
@@ -41,7 +45,7 @@
           "class": "Xpressengine\\Plugins\\Board\\Components\\Skins\\Board\\Gallery\\GallerySkin",
           "name": "게시판 갤러리 스킨",
           "description": "게시판 갤러리 스킨.",
-          "screenshot" : [
+          "screenshot": [
             "/plugins/board/assets/img/screenshots/gallery_skin.png"
           ]
         },
@@ -49,7 +53,7 @@
           "class": "Xpressengine\\Plugins\\Board\\Components\\Skins\\Board\\Blog\\BlogSkin",
           "name": "게시판 블로그 스킨",
           "description": "게시판 블로그 스킨.",
-          "screenshot" : [
+          "screenshot": [
             "/plugins/board/assets/img/screenshots/blog_skin.png"
           ]
         },
@@ -57,7 +61,7 @@
           "class": "Xpressengine\\Plugins\\Board\\Components\\Skins\\Board\\XEDefault\\XEDefault",
           "name": "XE 기본형 스킨",
           "description": "XE 기본형 스킨",
-          "screenshot" : [
+          "screenshot": [
             "/plugins/board/assets/img/screenshots/xe-default.jpg"
           ]
         },
@@ -65,7 +69,7 @@
           "class": "Xpressengine\\Plugins\\Board\\Components\\Skins\\Board\\XEGallery\\XEGallery",
           "name": "XE 갤러리형 스킨",
           "description": "XE 갤러리형 스킨",
-          "screenshot" : [
+          "screenshot": [
             "/plugins/board/assets/img/screenshots/xe-gallery.jpg"
           ]
         },
@@ -73,7 +77,7 @@
           "class": "Xpressengine\\Plugins\\Board\\Components\\Skins\\Board\\XEWebzine\\XEWebzine",
           "name": "XE 웹진형 스킨",
           "description": "XE 웹진형 스킨",
-          "screenshot" : [
+          "screenshot": [
             "/plugins/board/assets/img/screenshots/xe-webzine.jpg"
           ]
         },
@@ -116,7 +120,7 @@
           "class": "Xpressengine\\Plugins\\Board\\Components\\Skins\\Board\\Settings\\Common\\CommonSettingsSkin",
           "name": "게시판 관리자 기본 스킨",
           "description": "게시판 관리자 기본스킨",
-          "screenshot" : []
+          "screenshot": []
         },
         "fieldType/xpressengine@Category/fieldSkin/xpressengine@default": {
           "class": "Xpressengine\\Plugins\\Board\\Components\\DynamicFields\\Category\\Skins\\DesignSelect\\DesignSelectSkin",
@@ -174,15 +178,15 @@
           "description": "선택한 문서를 인쇄합니다."
         }
       },
-      "screenshots" : [
+      "screenshots": [
         "/plugins/board/assets/img/screenshots/plugin1.png"
       ]
     }
   },
   "require": {
-    "xpressengine/xpressengine": "^3.0.2",
-    "xpressengine-plugin/ckeditor": "*",
-    "xpressengine-plugin/comment": "*"
+    "nineboard/nineboard": "dev-main",
+    "nineboard/plugin-ckeditor": "dev-main",
+    "nineboard/plugin-comment": "dev-main"
   },
   "autoload": {
     "psr-4": {
@@ -192,5 +196,25 @@
     "files": [
       "src/helpers.php"
     ]
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git://github.com/nineboard/nineboard.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git://github.com/nineboard/plugin-ckeditor.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git://github.com/nineboard/plugin-comment.git"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "xpressengine/installer": false,
+      "wikimedia/composer-merge-plugin": false
+    }
   }
 }
