@@ -1,4 +1,5 @@
 <?php
+
 // @see views/setting.blade.php
 //return [
 //    'setting' => [

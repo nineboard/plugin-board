@@ -5,24 +5,26 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board;
 
+use Xpressengine\Config\ConfigEntity;
+use Xpressengine\Database\VirtualConnectionInterface as VirtualConnection;
 use Xpressengine\Document\DocumentHandler;
 use Xpressengine\DynamicField\DynamicFieldHandler;
-use Xpressengine\Plugins\Board\Models\Board;
-use Xpressengine\Plugins\Comment\Handler as CommentHandler;
-use Xpressengine\Config\ConfigEntity;
 use Xpressengine\Permission\Grant;
 use Xpressengine\Plugins\Board\Exceptions\AlreadyExistsInstanceException;
 use Xpressengine\Plugins\Board\Exceptions\InvalidConfigException;
 use Xpressengine\Plugins\Board\Exceptions\RequiredBoardIdException;
-use Xpressengine\Database\VirtualConnectionInterface as VirtualConnection;
+use Xpressengine\Plugins\Board\Models\Board;
+use Xpressengine\Plugins\Comment\Handler as CommentHandler;
 
 /**
  * InstanceManager
@@ -30,10 +32,11 @@ use Xpressengine\Database\VirtualConnectionInterface as VirtualConnection;
  * 메뉴에서 게시판 추가할 때 추가된 게시판 관리
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class InstanceManager
@@ -71,12 +74,12 @@ class InstanceManager
     /**
      * create instance
      *
-     * @param VirtualConnection      $conn              database connection
-     * @param DocumentHandler        $document          document handler
-     * @param DynamicFieldHandler    $dynamicField      dynamic field handler
-     * @param ConfigHandler          $configHandler     config handler
-     * @param BoardPermissionHandler $permissionHandler permission handler
-     * @param CommentHandler         $commentHandler    comment handler
+     * @param  VirtualConnection  $conn  database connection
+     * @param  DocumentHandler  $document  document handler
+     * @param  DynamicFieldHandler  $dynamicField  dynamic field handler
+     * @param  ConfigHandler  $configHandler  config handler
+     * @param  BoardPermissionHandler  $permissionHandler  permission handler
+     * @param  CommentHandler  $commentHandler  comment handler
      */
     public function __construct(
         VirtualConnection $conn,
@@ -97,7 +100,7 @@ class InstanceManager
     /**
      * 게시판 생성
      *
-     * @param array $params parameters
+     * @param  array  $params  parameters
      * @return ConfigEntity
      */
     public function create(array $params)
@@ -118,7 +121,7 @@ class InstanceManager
         $this->createCommentConfig($documentConfig);
 
         $params['documentGroup'] = $documentConfig->get('group');
-        $params['commentGroup'] = 'comments_' . $documentConfig->get('instanceId');
+        $params['commentGroup'] = 'comments_'.$documentConfig->get('instanceId');
 
         $config = $this->configHandler->add($params);
 
@@ -132,7 +135,7 @@ class InstanceManager
     /**
      * create comment config(create new comment instance)
      *
-     * @param ConfigEntity $config document config entity
+     * @param  ConfigEntity  $config  document config entity
      * @return void
      */
     protected function createCommentConfig(ConfigEntity $config)
@@ -147,7 +150,7 @@ class InstanceManager
     /**
      * 게시판 설정 변경
      *
-     * @param array $params parameters
+     * @param  array  $params  parameters
      * @return ConfigEntity
      */
     public function updateConfig(array $params)
@@ -171,7 +174,7 @@ class InstanceManager
         $this->conn->beginTransaction();
 
         $config->set('documentGroup', $documentConfig->get('group'));
-        $config->set('commentGroup', 'comments_' . $documentConfig->get('instanceId'));
+        $config->set('commentGroup', 'comments_'.$documentConfig->get('instanceId'));
         $config = $this->configHandler->modify($config);
 
         $this->document->getInstanceManager()->put($documentConfig);
@@ -183,7 +186,7 @@ class InstanceManager
     /**
      * 게시판 제거
      *
-     * @param string $boardId board id
+     * @param  string  $boardId  board id
      * @return void
      */
     public function destroy($boardId)
@@ -213,7 +216,7 @@ class InstanceManager
     /**
      * 게시판 요약 정보 반환
      *
-     * @param string $instanceId instance id
+     * @param  string  $instanceId  instance id
      * @return string
      */
     public function summary($instanceId)

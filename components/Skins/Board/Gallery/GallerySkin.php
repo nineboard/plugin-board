@@ -5,41 +5,41 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 
 namespace Xpressengine\Plugins\Board\Components\Skins\Board\Gallery;
 
+use App;
+use Event;
+use XeSkin;
+use XeStorage;
 use Xpressengine\Config\ConfigEntity;
 use Xpressengine\Http\Request;
 use Xpressengine\Media\Models\Image;
+use Xpressengine\Media\Repositories\ImageRepository;
 use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
 use Xpressengine\Plugins\Board\Components\Skins\Board\Common\CommonSkin;
+use Xpressengine\Plugins\Board\Handler as BoardHandler;
 use Xpressengine\Plugins\Board\Models\Board;
 use Xpressengine\Plugins\Board\Models\BoardGalleryThumb;
-use Xpressengine\Plugins\Board\Handler as BoardHandler;
-use XeStorage;
-use XeSkin;
-use View;
-use Event;
-use Input;
-use App;
 use Xpressengine\Presenter\Presenter;
 use Xpressengine\Routing\InstanceConfig;
-use Xpressengine\Media\Repositories\ImageRepository;
 
 /**
  * GallerySkin
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class GallerySkin extends CommonSkin
@@ -94,6 +94,7 @@ class GallerySkin extends CommonSkin
             function ($func) {
                 $orders = $func();
                 $orders[] = ['value' => 'exceptNotice', 'text' => 'board::exceptNotice'];
+
                 return $orders;
             }
         );
@@ -119,6 +120,7 @@ class GallerySkin extends CommonSkin
                 }
 
                 static::attachThumbnail($notice);
+
                 return $notice;
             }
         );
@@ -127,7 +129,7 @@ class GallerySkin extends CommonSkin
     /**
      * set using thumbnail skin id
      *
-     * @param string $skinId skin id
+     * @param  string  $skinId  skin id
      * @return void
      */
     public static function addThumbSkin($skinId)
@@ -157,7 +159,7 @@ class GallerySkin extends CommonSkin
             'board_gallery_skin::set_skin_target_id',
             function ($func, $skinTargetId) {
                 $func($skinTargetId);
-                if (!$skinTargetId) {
+                if (! $skinTargetId) {
                     return;
                 }
                 if ($skinTargetId != BoardModule::getId()) {
@@ -196,7 +198,7 @@ class GallerySkin extends CommonSkin
     /**
      * attach thumbnail for list
      *
-     * @param array $list list of board model
+     * @param  array  $list  list of board model
      * @return void
      */
     public static function attachThumbnail($list)
@@ -209,8 +211,8 @@ class GallerySkin extends CommonSkin
     /**
      * bind gallery thumbnail
      *
-     * @param Board $item board model
-     * @return  void
+     * @param  Board  $item  board model
+     * @return void
      */
     protected static function bindGalleryThumb(Board $item)
     {
@@ -277,7 +279,7 @@ class GallerySkin extends CommonSkin
     /**
      * get path from content image tag source
      *
-     * @param string $content document content
+     * @param  string  $content  document content
      * @return string
      */
     protected static function getImagePathFromContent($content)
@@ -289,11 +291,12 @@ class GallerySkin extends CommonSkin
 
         preg_match_all($pattern, $content, $matches);
         if (isset($matches[1][0])) {
-            $path= $matches[1][0];
+            $path = $matches[1][0];
         }
 
-        $fullUrl = $actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'];
+        $fullUrl = $actual_link = (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'];
         $path = str_replace($fullUrl, '', $path);
+
         return $path;
     }
 }

@@ -5,27 +5,27 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Plugin;
 
-use Schema;
 use Illuminate\Database\Schema\Blueprint;
-use XeToggleMenu;
+use Schema;
 use XeConfig;
-use XeDB;
 use XePlugin;
+use XeToggleMenu;
 use Xpressengine\Plugins\Board\Components\ToggleMenus\Shares\CopyItem;
 use Xpressengine\Plugins\Board\Components\ToggleMenus\Shares\FacebookItem;
 use Xpressengine\Plugins\Board\Components\ToggleMenus\Shares\LineItem;
 use Xpressengine\Plugins\Board\Components\ToggleMenus\Shares\TwitterItem;
 use Xpressengine\Plugins\Board\Components\UIObjects\Share\ShareUIObject;
 use Xpressengine\Plugins\Board\ConfigHandler;
-use XeSkin;
 
 /**
  * Update
@@ -34,10 +34,11 @@ use XeSkin;
  * 버전 업데이트할 때 필요한 코드 계속 추가.
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class Update
@@ -45,7 +46,7 @@ class Update
     /**
      * check update
      *
-     * @param null $installedVersion installed version
+     * @param  null  $installedVersion  installed version
      * @return bool
      */
     public static function check($installedVersion = null)
@@ -109,7 +110,7 @@ class Update
     /**
      * update process execute
      *
-     * @param null $installedVersion install version
+     * @param  null  $installedVersion  install version
      * @return void
      */
     public static function proc($installedVersion = null)
@@ -128,8 +129,8 @@ class Update
         // ver 0.9.2
         if ($installedVersion !== null && static::hasSlugTableSlugUnique($installedVersion) === false) {
             Schema::table('board_slug', function (Blueprint $table) {
-                $table->dropIndex(array('slug'));
-                $table->unique(array('slug'));
+                $table->dropIndex(['slug']);
+                $table->unique(['slug']);
             });
         }
 
@@ -214,13 +215,14 @@ class Update
         if ($config->get('useCaptcha') === null || $config->get('useTag') === null) {
             return false;
         }
+
         return true;
     }
 
     /**
      * 0.9.1 이하 버전은 slug를 unique 하게 해야함
      *
-     * @param string $installedVersion installed version
+     * @param  string  $installedVersion  installed version
      * @return bool
      */
     protected static function hasSlugTableSlugUnique($installedVersion)
@@ -243,6 +245,7 @@ class Update
         if ($config->get('urlType') === null) {
             return false;
         }
+
         return true;
     }
 
@@ -257,6 +260,7 @@ class Update
         if ($config->get('deleteToTrash') === null) {
             return false;
         }
+
         return true;
     }
 
@@ -271,6 +275,7 @@ class Update
         if ($config->get('newCommentNotice') === null) {
             return false;
         }
+
         return true;
     }
 
@@ -280,8 +285,9 @@ class Update
      * 0.9.24 에서 skin config 의 컬럼 설정을 게시판 설정으로 이동했으며
      * 그로 인해 이 업데이트는 더이상 유효하지 않습니다
      *
-     * @param string $installedVersion installed version
+     * @param  string  $installedVersion  installed version
      * @return bool
+     *
      * @deprecated
      */
     protected static function hasCommonSkinConfig($installedVersion)
@@ -290,9 +296,9 @@ class Update
          * 0.9.24 에서 skin config 의 컬럼 설정을 게시판 설정으로 이동했으며
          * 그로 인해 이 업데이트는 더이상 유효하지 않습니다
          */
-//        if (version_compare($installedVersion, '0.9.21', '<=')) {
-//            return false;
-//        }
+        //        if (version_compare($installedVersion, '0.9.21', '<=')) {
+        //            return false;
+        //        }
 
         return true;
     }
@@ -305,9 +311,10 @@ class Update
     protected static function hasShareToggleMenuConfig()
     {
         $config = XeConfig::get(XeToggleMenu::getConfigKey(ShareUIObject::CONFIG_NAME, null));
-        if ($config=== null) {
+        if ($config === null) {
             return false;
         }
+
         return true;
     }
 
@@ -322,6 +329,7 @@ class Update
         if ($config->get('sortFormColumns') === null) {
             return false;
         }
+
         return true;
     }
 
@@ -392,6 +400,7 @@ class Update
         if ($config->get('secretPost') === null) {
             return false;
         }
+
         return true;
     }
 
@@ -419,6 +428,7 @@ class Update
         if ($config->get('useApprove') === null) {
             return false;
         }
+
         return true;
     }
 

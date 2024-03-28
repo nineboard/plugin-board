@@ -5,10 +5,11 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2020 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 
@@ -24,10 +25,11 @@ use Xpressengine\UIObject\AbstractUIObject;
  * 신규 게시판 스킨에서 게시판 글 등록할 때 slug 지원하는 input box
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2020 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class NewTitleUIObject extends AbstractUIObject
@@ -76,7 +78,7 @@ class NewTitleUIObject extends AbstractUIObject
 
             $args['scriptInit'] = true;
 
-//            XeFrontend::js('plugins/board/components/UIObjects/NewTitle/assets/js/newTitle.js')->load();
+            //            XeFrontend::js('plugins/board/components/UIObjects/NewTitle/assets/js/newTitle.js')->load();
         }
 
         return View::make('board::components/UIObjects/NewTitle/title', $args)->render();

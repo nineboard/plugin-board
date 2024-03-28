@@ -5,41 +5,43 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Components\Modules;
 
 use Route;
-use XeSkin;
 use View;
-use Mail;
+use XeSkin;
 use Xpressengine\Menu\AbstractModule;
-use Xpressengine\Plugins\Board\Handler as BoardHandler;
 use Xpressengine\Plugins\Board\ConfigHandler;
-use Xpressengine\Plugins\Board\UrlHandler;
+use Xpressengine\Plugins\Board\Handler as BoardHandler;
 use Xpressengine\Plugins\Board\Models\Board as BoardModel;
 use Xpressengine\Plugins\Board\Models\BoardSlug;
+use Xpressengine\Plugins\Board\UrlHandler;
 use Xpressengine\Plugins\Comment\Handler as CommentHandler;
 use Xpressengine\Plugins\Comment\Models\Comment;
-use Xpressengine\Plugins\Comment\Models\Target as CommentTarget;
 
 /**
  * BoardModule
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class BoardModule extends AbstractModule
 {
     const FILE_UPLOAD_PATH = 'public/plugin/board';
+
     const THUMBNAIL_TYPE = 'spill';
 
     /**
@@ -75,7 +77,7 @@ class BoardModule extends AbstractModule
 
         Route::group([
             'prefix' => 'archives',
-            'namespace' => 'Xpressengine\Plugins\Board\Controllers'
+            'namespace' => 'Xpressengine\Plugins\Board\Controllers',
         ], function () {
             Route::get('/{slug}', ['as' => 'archives', 'uses' => 'ArchivesController@index']);
         });
@@ -131,19 +133,19 @@ class BoardModule extends AbstractModule
             Route::get('toggleMenu/edit/{boardId}', ['as' => 'settings.board.board.toggleMenu', 'uses' => 'BoardSettingsController@editToggleMenu']);
 
             Route::post('storeCategory/', [
-                'as' => 'settings.board.board.storeCategory', 'uses' => 'BoardSettingsController@storeCategory'
+                'as' => 'settings.board.board.storeCategory', 'uses' => 'BoardSettingsController@storeCategory',
             ]);
 
             // docs
             Route::get('docs', [
                 'as' => 'settings.board.board.docs.index',
                 'uses' => 'BoardSettingsController@docsIndex',
-                'settings_menu' => 'contents.board.board'
+                'settings_menu' => 'contents.board.board',
             ]);
             Route::get('docs/trash', [
                 'as' => 'settings.board.board.docs.trash',
                 'uses' => 'BoardSettingsController@docsTrash',
-                'settings_menu' => 'contents.board.boardtrash'
+                'settings_menu' => 'contents.board.boardtrash',
             ]);
             Route::post('approve', ['as' => 'settings.board.board.approve', 'uses' => 'BoardSettingsController@approve']);
             Route::post('copy', ['as' => 'settings.board.board.copy', 'uses' => 'BoardSettingsController@copy']);
@@ -164,7 +166,7 @@ class BoardModule extends AbstractModule
         Route::instance(self::getId(), function () {
             Route::get('/', ['as' => 'index', 'uses' => 'BoardModuleController@index']);
             Route::get('/show/{id}', ['as' => 'show', 'uses' => 'BoardModuleController@showByItemId']);
-	        Route::get('/num/{serialNumber}', ['as' => 'num', 'uses' => 'BoardModuleController@num']);
+            Route::get('/num/{serialNumber}', ['as' => 'num', 'uses' => 'BoardModuleController@num']);
             Route::get('/print/{id}', ['as' => 'print', 'uses' => 'BoardModuleController@print']);
 
             Route::get('/articles', ['as' => 'api.articles', 'uses' => 'BoardModuleController@articles']);
@@ -181,7 +183,7 @@ class BoardModule extends AbstractModule
 
             Route::get('/guest/id/{id}', ['as' => 'guest.id', 'uses' => 'BoardModuleController@guestId']);
             Route::post('/guest/certify/{id}', [
-                'as' => 'guest.certify', 'uses' => 'BoardModuleController@guestCertify'
+                'as' => 'guest.certify', 'uses' => 'BoardModuleController@guestCertify',
             ]);
 
             Route::get('/revision/{id}', ['as' => 'revision', 'uses' => 'BoardModuleController@revision']);
@@ -193,13 +195,13 @@ class BoardModule extends AbstractModule
             Route::post('/vote/{option}/{id}', ['as' => 'vote', 'uses' => 'BoardModuleController@vote']);
             Route::get('/vote/show/{id}', ['as' => 'showVote', 'uses' => 'BoardModuleController@showVote']);
             Route::get('/vote/users/{option}/{id}', [
-                'as' => 'votedUsers', 'uses' => 'BoardModuleController@votedUsers'
+                'as' => 'votedUsers', 'uses' => 'BoardModuleController@votedUsers',
             ]);
             Route::get('/vote/modal/{option}/{id}', [
-                'as' => 'votedModal', 'uses' => 'BoardModuleController@votedModal'
+                'as' => 'votedModal', 'uses' => 'BoardModuleController@votedModal',
             ]);
             Route::get('/vote/userList/{option}/{id}', [
-                'as' => 'votedUserList', 'uses' => 'BoardModuleController@votedUserList'
+                'as' => 'votedUserList', 'uses' => 'BoardModuleController@votedUserList',
             ]);
 
             Route::post('/favorite/{id}', ['as' => 'favorite', 'uses' => 'BoardModuleController@favorite']);
@@ -211,7 +213,7 @@ class BoardModule extends AbstractModule
         BoardSlug::setReserved([
             'index', 'create', 'edit', 'destroy', 'show', 'identify', 'revision', 'store', 'preview', 'temporary',
             'trash', 'certify', 'update', 'vote', 'manageMenus', 'comment', 'file', 'suggestion', 'slug', 'hasSlug',
-            'favorite'
+            'favorite',
         ]);
     }
 
@@ -228,19 +230,19 @@ class BoardModule extends AbstractModule
                 'title' => 'board::board',
                 'display' => true,
                 'description' => '',
-                'ordering' => 2000
+                'ordering' => 2000,
             ],
             'contents.board.board' => [
                 'title' => 'board::articlesManage',
                 'display' => true,
                 'description' => '',
-                'ordering' => 2001
+                'ordering' => 2001,
             ],
             'contents.board.boardtrash' => [
                 'title' => 'board::trashManage',
                 'display' => true,
                 'description' => '',
-                'ordering' => 2003
+                'ordering' => 2003,
             ],
         ];
         foreach ($menus as $id => $menu) {
@@ -412,7 +414,7 @@ class BoardModule extends AbstractModule
                 $query = $model->whereHas('target', function ($query) use ($board) {
                     $query->where('target_id', $board->id);
                 })
-                ->where('display', '!=', Comment::DISPLAY_HIDDEN);
+                    ->where('display', '!=', Comment::DISPLAY_HIDDEN);
                 $comments = $query->get();
                 foreach ($comments as $dstComment) {
                     if ($dstComment->email != null && $dstComment->email != '') {
@@ -428,7 +430,7 @@ class BoardModule extends AbstractModule
                 $emails = array_unique($emails);
 
                 foreach ($emails as $toMail) {
-                    if (!$toMail) {
+                    if (! $toMail) {
                         continue;
                     }
 
@@ -445,12 +447,11 @@ class BoardModule extends AbstractModule
                     send_notice_email('new_comment', $toMail, $data['title'], $data['contents'], function ($notifiable) use ($board) {
                         $menuItem = app('xe.menu')->items()->find($board->instance_id);
                         $subject = sprintf('Comment:[%s] %s', xe_trans($menuItem->title), $board->title);
+
                         return $subject;
                     });
 
                 }
-
-
 
                 return $comment;
             }
@@ -466,7 +467,7 @@ class BoardModule extends AbstractModule
     {
         intercept(
             sprintf('%s@add', BoardHandler::class),
-            static::class .'-manager-board-alarm',
+            static::class.'-manager-board-alarm',
             function ($func, $args, $user, $config) {
                 $board = $func($args, $user, $config);
 
@@ -506,7 +507,7 @@ class BoardModule extends AbstractModule
                 ];
 
                 foreach ($managerEmails as $toMail) {
-                    if (!$toMail) {
+                    if (! $toMail) {
                         continue;
                     }
 
@@ -525,6 +526,7 @@ class BoardModule extends AbstractModule
                                 xe_trans($menuItem->title),
                                 xe_trans('board::newPostsRegistered')
                             );
+
                             return $subject;
                         }
                     );
@@ -576,9 +578,9 @@ class BoardModule extends AbstractModule
     /**
      * Process to Store
      *
-     * @param string $instanceId     instance id
-     * @param array  $menuTypeParams menu type parameters
-     * @param array  $itemParams     item parameters
+     * @param  string  $instanceId  instance id
+     * @param  array  $menuTypeParams  menu type parameters
+     * @param  array  $itemParams  item parameters
      * @return void
      */
     public function storeMenu($instanceId, $menuTypeParams, $itemParams)
@@ -593,7 +595,7 @@ class BoardModule extends AbstractModule
     /**
      * Return Edit Form View
      *
-     * @param string $instanceId instance id
+     * @param  string  $instanceId  instance id
      * @return string
      */
     public function editMenuForm($instanceId)
@@ -611,9 +613,9 @@ class BoardModule extends AbstractModule
     /**
      * Process to Update
      *
-     * @param string $instanceId     instance id
-     * @param array  $menuTypeParams menu type parameters
-     * @param array  $itemParams     item parameters
+     * @param  string  $instanceId  instance id
+     * @param  array  $menuTypeParams  menu type parameters
+     * @param  array  $itemParams  item parameters
      * @return void
      */
     public function updateMenu($instanceId, $menuTypeParams, $itemParams)
@@ -626,7 +628,7 @@ class BoardModule extends AbstractModule
     /**
      * Process to delete
      *
-     * @param string $instanceId instance id
+     * @param  string  $instanceId  instance id
      * @return void
      */
     public function deleteMenu($instanceId)
@@ -637,7 +639,7 @@ class BoardModule extends AbstractModule
     /**
      * summary
      *
-     * @param string $instanceId instance id
+     * @param  string  $instanceId  instance id
      * @return string
      */
     public function summary($instanceId)
@@ -652,7 +654,7 @@ class BoardModule extends AbstractModule
      * Return URL about module's detail setting
      * getInstanceSettingURI
      *
-     * @param string $instanceId instance id
+     * @param  string  $instanceId  instance id
      * @return mixed
      */
     public static function getInstanceSettingURI($instanceId)
@@ -663,14 +665,14 @@ class BoardModule extends AbstractModule
     /**
      * Get menu type's item object
      *
-     * @param string $id item id of menu type
+     * @param  string  $id  item id of menu type
      * @return mixed
      */
     public function getTypeItem($id)
     {
         static $items = [];
 
-        if (!isset($items[$id])) {
+        if (! isset($items[$id])) {
             $items[$id] = \Xpressengine\Plugins\Board\Models\Board::find($id);
         }
 

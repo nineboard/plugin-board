@@ -4,6 +4,6 @@ return [
     'setting' => 'setting',
     'support' => [
         'mobile' => true,
-        'desktop' => true
-    ]
+        'desktop' => true,
+    ],
 ];

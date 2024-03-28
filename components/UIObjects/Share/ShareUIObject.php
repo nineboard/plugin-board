@@ -5,28 +5,30 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Components\UIObjects\Share;
 
 use App\Facades\XeFrontend;
-use Xpressengine\UIObject\AbstractUIObject;
-use View;
 use Route;
-use XeConfig;
+use View;
+use Xpressengine\UIObject\AbstractUIObject;
 
 /**
  * Share
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class ShareUIObject extends AbstractUIObject
@@ -35,9 +37,6 @@ class ShareUIObject extends AbstractUIObject
 
     protected static $id = 'uiobject/board@share';
 
-    /**
-     *
-     */
     const CONFIG_NAME = 'uiobject/board@share';
 
     /**
@@ -83,11 +82,10 @@ class ShareUIObject extends AbstractUIObject
         $url = $args['url'];
         $className = (isset($args['className'])) ? $args['className'] : '';
 
-
         return View::make('board::components/UIObjects/Share/share', [
             'url' => $url,
             'item' => $item,
-            'className' => $className
+            'className' => $className,
         ])->render();
     }
 

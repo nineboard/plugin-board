@@ -5,28 +5,30 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Controllers;
 
-use Auth;
-use Gate;
-use Event;
-use XePresenter;
 use App\Http\Controllers\Controller;
+use Auth;
+use Event;
+use Gate;
+use XePresenter;
 use Xpressengine\Http\Request;
 use Xpressengine\Permission\Instance;
 use Xpressengine\Plugins\Board\BoardPermissionHandler;
+use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
 use Xpressengine\Plugins\Board\ConfigHandler;
 use Xpressengine\Plugins\Board\Handler;
 use Xpressengine\Plugins\Board\IdentifyManager;
-use Xpressengine\Plugins\Board\Models\BoardSlug;
 use Xpressengine\Plugins\Board\Models\Board;
-use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
+use Xpressengine\Plugins\Board\Models\BoardSlug;
 use Xpressengine\Plugins\Board\Services\BoardService;
 use Xpressengine\Plugins\Board\UrlHandler;
 use Xpressengine\Routing\InstanceConfig;
@@ -36,10 +38,11 @@ use Xpressengine\Support\Exceptions\AccessDeniedHttpException;
  * ArchivesController
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class ArchivesController extends Controller
@@ -47,9 +50,9 @@ class ArchivesController extends Controller
     /**
      * show document
      *
-     * @param BoardService $service board service
-     * @param Request      $request request
-     * @param string       $slug    slug
+     * @param  BoardService  $service  board service
+     * @param  Request  $request  request
+     * @param  string  $slug  slug
      * @return mixed
      */
     public function index(BoardService $service, Request $request, $slug)
@@ -134,9 +137,9 @@ class ArchivesController extends Controller
     /**
      * set current page
      *
-     * @param Request       $request       request
-     * @param ConfigHandler $configHandler config handler
-     * @param BoardSlug     $slug          slug model
+     * @param  Request  $request  request
+     * @param  ConfigHandler  $configHandler  config handler
+     * @param  BoardSlug  $slug  slug model
      * @return void
      */
     protected function setCurrentPage(
@@ -180,11 +183,11 @@ class ArchivesController extends Controller
         }
 
         Event::dispatch('xe.plugin.board.archive', [$query, $slug->board]);
-        $count = $query->count() ? : 1;
+        $count = $query->count() ?: 1;
 
-        $page = (int)($count / $config->get('perPage'));
+        $page = (int) ($count / $config->get('perPage'));
         if ($count % $config->get('perPage') != 0) {
-            ++$page;
+            $page++;
         }
         $request->query->set('page', $page);
     }

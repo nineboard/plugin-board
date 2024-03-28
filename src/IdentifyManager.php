@@ -5,12 +5,14 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board;
 
 use Illuminate\Contracts\Hashing\Hasher;
@@ -24,10 +26,11 @@ use Xpressengine\Plugins\Board\Models\Board;
  * 비회원이 작성한 글의 인증 처리 관리
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class IdentifyManager
@@ -65,9 +68,9 @@ class IdentifyManager
     /**
      * create instance
      *
-     * @param SessionManager  $session  session manager
-     * @param DocumentHandler $document document handler
-     * @param Hasher          $hasher   hasher
+     * @param  SessionManager  $session  session manager
+     * @param  DocumentHandler  $document  document handler
+     * @param  Hasher  $hasher  hasher
      */
     public function __construct(SessionManager $session, DocumentHandler $document, Hasher $hasher)
     {
@@ -79,7 +82,7 @@ class IdentifyManager
     /**
      * 암호화 된 비밀번호 반환
      *
-     * @param string $value password
+     * @param  string  $value  password
      * @return string
      */
     public function hash($value)
@@ -90,9 +93,9 @@ class IdentifyManager
     /**
      * 비회원 작성 글 인증 확인
      *
-     * @param Board  $board      board model
-     * @param string $email      email
-     * @param string $certifyKey 인증 암호
+     * @param  Board  $board  board model
+     * @param  string  $email  email
+     * @param  string  $certifyKey  인증 암호
      * @return bool
      */
     public function verify(Board $board, $email, $certifyKey)
@@ -107,18 +110,18 @@ class IdentifyManager
     /**
      * 한번 생성 한 세션은 EXPIRE_TIME 시간 만큼 유효함.
      *
-     * @param string $id hashed certify key
+     * @param  string  $id  hashed certify key
      * @return string
      */
     public function getKey($id)
     {
-        return self::SESSION_NAME . $id;
+        return self::SESSION_NAME.$id;
     }
 
     /**
      * 인증 세션 생성
      *
-     * @param Board $board board model
+     * @param  Board  $board  board model
      * @return void
      */
     public function create(Board $board)
@@ -142,7 +145,7 @@ class IdentifyManager
     /**
      * 인증 세션 반환
      *
-     * @param Board $board board model
+     * @param  Board  $board  board model
      * @return mixed
      */
     public function get(Board $board)
@@ -154,7 +157,7 @@ class IdentifyManager
      * 문서에 대한 인증이 유효한지 검사
      * 인증 암호 및 유효 시간 검사
      *
-     * @param Board $board board model
+     * @param  Board  $board  board model
      * @return bool
      */
     public function validate(Board $board)
@@ -167,6 +170,7 @@ class IdentifyManager
         // 세션 만료됨
         if ($session['expire'] < time()) {
             $this->destroy($board);
+
             return false;
         }
 
@@ -176,7 +180,7 @@ class IdentifyManager
     /**
      * 문서에 대해서 인증한 세션이 있는지 체크
      *
-     * @param Board $board board model
+     * @param  Board  $board  board model
      * @return bool
      */
     public function identified(Board $board)
@@ -200,7 +204,7 @@ class IdentifyManager
     /**
      * destroy session
      *
-     * @param Board $board board model
+     * @param  Board  $board  board model
      * @return void
      */
     public function destroy(Board $board)

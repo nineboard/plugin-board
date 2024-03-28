@@ -5,10 +5,11 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 
@@ -28,10 +29,11 @@ use Xpressengine\Widget\AbstractWidget;
  * ListWidget
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class ArticleListWidget extends AbstractWidget
@@ -54,14 +56,14 @@ class ArticleListWidget extends AbstractWidget
         $boardHandler = app('xe.board.handler');
         $configHandler = app('xe.board.config');
         $urlHandler = app('xe.board.url');
-        if (!array_has($widgetConfig, 'board_id')) {
+        if (! array_has($widgetConfig, 'board_id')) {
             $widgetConfig['board_id']['item'] = [];
         }
 
         //다중 선택으로 변환. 현재 셀렉트박스 muliple설정은 배열인경우 item값으로 넘어오므로 설정
         $categorySelected = (is_array($widgetConfig['board_id'])) ?
             $widgetConfig['board_id']['item'] :
-            (array)$widgetConfig['board_id'];
+            (array) $widgetConfig['board_id'];
 
         //게시판 쿼리와 카테고리 쿼리를 각각 할 수 있도록 분리
         $boardIds = array_filter($categorySelected, function ($item) {
@@ -93,7 +95,7 @@ class ArticleListWidget extends AbstractWidget
         $boardConfig = $configHandler->get($menuItem->id);
 
         $take = $widgetConfig['take'] ?? null;
-        $recent_date = (int)$widgetConfig['recent_date'] ?? 0;
+        $recent_date = (int) $widgetConfig['recent_date'] ?? 0;
         $orderType = $widgetConfig['order_type'] ?? '';
 
         //아래 설정은 위젯에서 제공함
@@ -152,8 +154,8 @@ class ArticleListWidget extends AbstractWidget
         //$recent_date
         if ($recent_date !== 0) {
             $current = Carbon::now();
-            $query = $query->where('created_at', '>=', $current->addDay(-1 * $recent_date)->toDateString() . ' 00:00:00')
-                ->where('created_at', '<=', $current->addDay($recent_date)->toDateString() . ' 23:59:59');
+            $query = $query->where('created_at', '>=', $current->addDay(-1 * $recent_date)->toDateString().' 00:00:00')
+                ->where('created_at', '<=', $current->addDay($recent_date)->toDateString().' 23:59:59');
         }
 
         //$orderType
@@ -179,7 +181,7 @@ class ArticleListWidget extends AbstractWidget
             return $item;
         });
 
-//        $urlHandler = new UrlHandler($boardConfig);
+        //        $urlHandler = new UrlHandler($boardConfig);
 
         return $this->renderSkin(
             [
@@ -189,7 +191,7 @@ class ArticleListWidget extends AbstractWidget
                 'widgetConfig' => $widgetConfig,
                 'urlHandler' => $urlHandler,
                 'title' => $title,
-                'more' => $more
+                'more' => $more,
             ]
         );
     }
@@ -197,8 +199,7 @@ class ArticleListWidget extends AbstractWidget
     /**
      * 위젯 설정 페이지에 출력할 폼을 출력한다.
      *
-     * @param array $args 설정값
-     *
+     * @param  array  $args  설정값
      * @return string
      */
     public function renderSetting(array $args = [])
@@ -239,9 +240,10 @@ class ArticleListWidget extends AbstractWidget
             $boardList[] = [
                 'value' => $config->get('boardId'),
                 'text' => $boardName,
-                'categories' => $categories
+                'categories' => $categories,
             ];
         }
+
         return $boardList;
     }
 
@@ -250,7 +252,7 @@ class ArticleListWidget extends AbstractWidget
         $result = [
             'id' => $categoryItem->id,
             'name' => xe_trans($categoryItem->word),
-            'children' => []
+            'children' => [],
         ];
 
         $categoryItem->getChildren()->each(function (CategoryItem $categoryItem) use (&$result) {

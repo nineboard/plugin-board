@@ -5,12 +5,14 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Models;
 
 use Xpressengine\Database\Eloquent\DynamicModel;
@@ -22,10 +24,11 @@ use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
  * BoardGalleryThumb
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class BoardGalleryThumb extends DynamicModel
@@ -40,7 +43,7 @@ class BoardGalleryThumb extends DynamicModel
         'target_id',
         'board_thumbnail_file_id',
         'board_thumbnail_external_path',
-        'board_thumbnail_path'
+        'board_thumbnail_path',
     ];
 
     /**
@@ -53,13 +56,12 @@ class BoardGalleryThumb extends DynamicModel
     /**
      * thumbnail의 실제 url을 반환
      *
-     * @param string $value board_thumbnail_path attribute
-     *
+     * @param  string  $value  board_thumbnail_path attribute
      * @return string
      */
     public function getBoardThumbnailPathAttribute($value)
     {
-        $thumbnailImage =  Image::find($this->board_thumbnail_file_id);
+        $thumbnailImage = Image::find($this->board_thumbnail_file_id);
         if ($thumbnailImage == null) {
             return '';
         }

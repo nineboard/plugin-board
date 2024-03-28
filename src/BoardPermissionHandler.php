@@ -5,30 +5,32 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board;
 
 use Xpressengine\Http\Request;
-use Xpressengine\Permission\PermissionHandler;
-use Xpressengine\Permission\Grant;
-use Xpressengine\Permission\PermissionSupport;
-use Xpressengine\Permission\Registered;
 use Xpressengine\Permission\Action;
+use Xpressengine\Permission\Grant;
+use Xpressengine\Permission\PermissionHandler;
+use Xpressengine\Permission\PermissionSupport;
 use Xpressengine\User\Rating;
 
 /**
  * BoardPermissionHandler
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class BoardPermissionHandler
@@ -77,7 +79,7 @@ class BoardPermissionHandler
     /**
      * create instance
      *
-     * @param PermissionHandler $permissionHandler permission factory instance
+     * @param  PermissionHandler  $permissionHandler  permission factory instance
      */
     public function __construct(PermissionHandler $permissionHandler)
     {
@@ -87,7 +89,7 @@ class BoardPermissionHandler
     /**
      * set prefix
      *
-     * @param string $prefix config prefix
+     * @param  string  $prefix  config prefix
      * @return void
      */
     public function setPrefix($prefix)
@@ -108,7 +110,7 @@ class BoardPermissionHandler
     /**
      * 퍼미션 인스턴스 이름 반환
      *
-     * @param string $instanceId instance identifier
+     * @param  string  $instanceId  instance identifier
      * @return string
      */
     public function name($instanceId)
@@ -129,7 +131,7 @@ class BoardPermissionHandler
     /**
      * get instance permissions
      *
-     * @param string $instanceId board instance id
+     * @param  string  $instanceId  board instance id
      * @return array
      */
     public function getPerms($instanceId)
@@ -140,7 +142,7 @@ class BoardPermissionHandler
     /**
      * 권한 객체 반환
      *
-     * @param string $instanceId board instance id
+     * @param  string  $instanceId  board instance id
      * @return \Xpressengine\Permission\Permission
      */
     public function get($instanceId)
@@ -151,8 +153,8 @@ class BoardPermissionHandler
     /**
      * 권한 설정
      *
-     * @param Request $request    request
-     * @param string  $instanceId board instance id
+     * @param  Request  $request  request
+     * @param  string  $instanceId  board instance id
      * @return void
      */
     public function set(Request $request, $instanceId)
@@ -163,8 +165,8 @@ class BoardPermissionHandler
     /**
      * 인스턴스 아이디로 권한 설정
      *
-     * @param string $instanceId board instance id
-     * @param Grant  $grant      grant
+     * @param  string  $instanceId  board instance id
+     * @param  Grant  $grant  grant
      * @return void
      */
     public function setByInstanceId($instanceId, Grant $grant)
@@ -188,21 +190,21 @@ class BoardPermissionHandler
                     Grant::RATING_TYPE => Rating::MANAGER,
                     Grant::GROUP_TYPE => [],
                     Grant::USER_TYPE => [],
-                    Grant::EXCEPT_TYPE => []
+                    Grant::EXCEPT_TYPE => [],
                 ];
             } elseif ($action == self::ACTION_LIST || $action == self::ACTION_READ) {
                 $perm = [
                     Grant::RATING_TYPE => Rating::GUEST,
                     Grant::GROUP_TYPE => [],
                     Grant::USER_TYPE => [],
-                    Grant::EXCEPT_TYPE => []
+                    Grant::EXCEPT_TYPE => [],
                 ];
             } else {
                 $perm = [
                     Grant::RATING_TYPE => Rating::USER,
                     Grant::GROUP_TYPE => [],
                     Grant::USER_TYPE => [],
-                    Grant::EXCEPT_TYPE => []
+                    Grant::EXCEPT_TYPE => [],
                 ];
             }
 
@@ -222,13 +224,14 @@ class BoardPermissionHandler
     public function getGlobal()
     {
         $permission = $this->permissionHandler->get($this->prefix);
+
         return $permission;
     }
 
     /**
      * 게시판 기본 권한 설정
      *
-     * @param Request $request request
+     * @param  Request  $request  request
      * @return void
      */
     public function setGlobal(Request $request)
@@ -239,9 +242,9 @@ class BoardPermissionHandler
     /**
      * grant 를 생성해서 반환
      *
-     * @param Grant  $grant       grant instance
-     * @param string $action      action name
-     * @param array  $permissions permissions
+     * @param  Grant  $grant  grant instance
+     * @param  string  $action  action name
+     * @param  array  $permissions  permissions
      * @return Grant
      */
     public function addGrant(Grant $grant, $action, $permissions)

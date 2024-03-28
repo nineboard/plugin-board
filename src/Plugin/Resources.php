@@ -5,22 +5,45 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Plugin;
 
+use Illuminate\Console\Application as Artisan;
 use Illuminate\Support\Facades\Gate;
-use Xpressengine\Document\DocumentHandler;
+use XeConfig;
+use XeCounter;
+use XeDB;
+use XeDocument;
+use XeDynamicField;
+use XeInterception;
+use XePlugin;
+use XeSkin;
+use XeToggleMenu;
+use XeTrash;
+use Xpressengine\Config\ConfigEntity;
 use Xpressengine\Config\ConfigManager;
+use Xpressengine\Document\DocumentHandler;
+use Xpressengine\DynamicField\ColumnEntity;
 use Xpressengine\DynamicField\DynamicFieldHandler;
 use Xpressengine\Permission\Instance;
 use Xpressengine\Plugins\Board\BoardPermissionHandler;
+use Xpressengine\Plugins\Board\Commands\BoardSkinMake;
+use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
 use Xpressengine\Plugins\Board\Components\Skins\Board\XEDefault\XEDefault;
+use Xpressengine\Plugins\Board\Components\ToggleMenus\Shares\CopyItem;
+use Xpressengine\Plugins\Board\Components\ToggleMenus\Shares\FacebookItem;
+use Xpressengine\Plugins\Board\Components\ToggleMenus\Shares\LineItem;
+use Xpressengine\Plugins\Board\Components\ToggleMenus\Shares\TwitterItem;
 use Xpressengine\Plugins\Board\Components\UIObjects\NewTitle\NewTitleUIObject;
+use Xpressengine\Plugins\Board\Components\UIObjects\Share\ShareUIObject;
+use Xpressengine\Plugins\Board\Components\UIObjects\Title\TitleUIObject;
 use Xpressengine\Plugins\Board\ConfigHandler;
 use Xpressengine\Plugins\Board\Exceptions\AlreadyUseCategoryHttpException;
 use Xpressengine\Plugins\Board\Handler;
@@ -31,30 +54,8 @@ use Xpressengine\Plugins\Board\Models\BoardCategory;
 use Xpressengine\Plugins\Board\Plugin;
 use Xpressengine\Plugins\Board\RecycleBin;
 use Xpressengine\Plugins\Board\Services\BoardService;
-use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
-use Xpressengine\Plugins\Board\Components\UIObjects\Title\TitleUIObject;
-use Xpressengine\Plugins\Board\Components\UIObjects\Share\ShareUIObject;
-use Xpressengine\Plugins\Board\Components\ToggleMenus\Shares\CopyItem;
-use Xpressengine\Plugins\Board\Components\ToggleMenus\Shares\FacebookItem;
-use Xpressengine\Plugins\Board\Components\ToggleMenus\Shares\LineItem;
-use Xpressengine\Plugins\Board\Components\ToggleMenus\Shares\TwitterItem;
 use Xpressengine\Plugins\Board\UrlHandler;
 use Xpressengine\Plugins\Board\Validator;
-use Xpressengine\Plugins\Board\Commands\BoardSkinMake;
-use Xpressengine\DynamicField\ColumnEntity;
-use Xpressengine\Config\ConfigEntity;
-use Schema;
-use XeToggleMenu;
-use XeConfig;
-use XeDB;
-use XeInterception;
-use XePlugin;
-use XeTrash;
-use XeCounter;
-use XeDynamicField;
-use XeDocument;
-use XeSkin;
-use Illuminate\Console\Application as Artisan;
 use Xpressengine\Support\Exceptions\AccessDeniedHttpException;
 
 /**
@@ -63,10 +64,11 @@ use Xpressengine\Support\Exceptions\AccessDeniedHttpException;
  * Plugin 에서 필요한 리소스 관리
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class Resources
@@ -165,6 +167,7 @@ class Resources
                 $voteCounter,
                 app('xe.plugin.comment')->getHandler()
             );
+
             return $handler;
         });
         $app->alias(Handler::class, 'xe.board.handler');
@@ -209,6 +212,7 @@ class Resources
         $app->singleton(BoardPermissionHandler::class, function ($app) {
             $boardPermission = new BoardPermissionHandler(app('xe.permission'), app('xe.board.config'));
             $boardPermission->setPrefix(BoardModule::getId());
+
             return $boardPermission;
         });
         $app->alias(BoardPermissionHandler::class, 'xe.board.permission');
@@ -217,6 +221,7 @@ class Resources
             $proxyHandler = XeInterception::proxy(BoardService::class);
 
             $instance = new $proxyHandler(app('xe.board.handler'), app('xe.board.config'));
+
             return $instance;
         });
         $app->alias(BoardService::class, 'xe.board.service');
@@ -285,9 +290,9 @@ class Resources
     public static function interceptDynamicField()
     {
         intercept(
-            DynamicFieldHandler::class . '@create',
+            DynamicFieldHandler::class.'@create',
             'board@commonSkin::createDynamicField',
-            function ($func, ConfigEntity $config, ColumnEntity $column = null) {
+            function ($func, ConfigEntity $config, ?ColumnEntity $column = null) {
                 $func($config, $column);
 
                 // remove prefix name of group
@@ -353,7 +358,7 @@ class Resources
     public static function listenCommentRetrievedEvent()
     {
         \Event::listen('xe.plugin.comment.retrieved', function ($request) {
-            if (Board::class !== $request->get('target_type')) {
+            if ($request->get('target_type') !== Board::class) {
                 return;
             }
 
@@ -386,12 +391,12 @@ class Resources
     public static function listenCommentCreateEvent()
     {
         \Event::listen('xe.plugin.comment.create', function ($request) {
-            if (Board::class !== $request->get('target_type')) {
+            if ($request->get('target_type') !== Board::class) {
                 return;
             }
 
             $item = Board::find($request->get('target_id'));
-            if ($item && !$item->boardData->allow_comment) {
+            if ($item && ! $item->boardData->allow_comment) {
                 abort(500, xe_trans('comment::notAllowedComment'));
             }
         });

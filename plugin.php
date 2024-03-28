@@ -5,10 +5,11 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 
@@ -23,7 +24,6 @@ use Xpressengine\Plugins\Board\Plugin\Update;
  * Plugin
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
  */
 class Plugin extends AbstractPlugin
 {
@@ -49,7 +49,7 @@ class Plugin extends AbstractPlugin
     /**
      * activate
      *
-     * @param null $installedVersion installed version
+     * @param  null  $installedVersion  installed version
      * @return void
      */
     public function activate($installedVersion = null)
@@ -72,7 +72,7 @@ class Plugin extends AbstractPlugin
     /**
      * update
      *
-     * @param null $installedVersion install version
+     * @param  null  $installedVersion  install version
      * @return void
      */
     public function update($installedVersion = null)
@@ -83,10 +83,10 @@ class Plugin extends AbstractPlugin
     /**
      * check update
      *
-     * @param null $installedVersion
+     * @param  null  $installedVersion
      * @return bool
      */
-    public function checkUpdated($installedVersion = NULL)
+    public function checkUpdated($installedVersion = null)
     {
         return Update::check($installedVersion);
     }

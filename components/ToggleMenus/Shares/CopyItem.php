@@ -5,10 +5,11 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 
@@ -20,15 +21,15 @@ use Xpressengine\ToggleMenu\AbstractToggleMenu;
  * CopyItem
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class CopyItem extends AbstractToggleMenu
 {
-
     /**
      * 메뉴에서 보여질 문자열
      *
@@ -59,6 +60,7 @@ class CopyItem extends AbstractToggleMenu
     public function getAction()
     {
         $url = app('request')->get('url');
+
         return '<a href="#" class="share-item" data-url="'.$url.'" data-type="copy"><i class="xi-link"></i>'
         .$this->getText().'</a>';
     }

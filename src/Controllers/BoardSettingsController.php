@@ -5,51 +5,52 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Controllers;
 
-use App\Http\Sections\EditorSection;
-use XeDB;
-use Redirect;
-use XePresenter;
-use Session;
 use App\Http\Controllers\Controller;
 use App\Http\Sections\DynamicFieldSection;
-use App\Http\Sections\ToggleMenuSection;
+use App\Http\Sections\EditorSection;
 use App\Http\Sections\SkinSection;
+use App\Http\Sections\ToggleMenuSection;
+use Redirect;
+use Session;
+use XeDB;
+use XePresenter;
 use Xpressengine\Captcha\CaptchaManager;
 use Xpressengine\Captcha\Exceptions\ConfigurationNotExistsException;
 use Xpressengine\Category\CategoryHandler;
 use Xpressengine\Http\Request;
 use Xpressengine\Menu\Models\MenuItem;
 use Xpressengine\Plugins\Board\BoardPermissionHandler;
+use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
 use Xpressengine\Plugins\Board\ConfigHandler;
 use Xpressengine\Plugins\Board\Exceptions\NotFoundConfigHttpException;
 use Xpressengine\Plugins\Board\Handler;
 use Xpressengine\Plugins\Board\InstanceManager;
 use Xpressengine\Plugins\Board\Models\Board;
 use Xpressengine\Plugins\Board\UrlHandler;
-use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
 use Xpressengine\Plugins\Comment\Exceptions\InvalidArgumentException;
-use Xpressengine\Routing\InstanceRouteHandler;
 use Xpressengine\Routing\RouteRepository;
 use Xpressengine\User\Models\Guest;
 use Xpressengine\User\Models\User;
-use Xpressengine\Plugins\Comment\ManageSection as CommentSection;
 
 /**
  * BoardSettingsController
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class BoardSettingsController extends Controller
@@ -82,10 +83,10 @@ class BoardSettingsController extends Controller
     /**
      * create instance
      *
-     * @param Handler         $handler         handler
-     * @param ConfigHandler   $configHandler   board config handler
-     * @param UrlHandler      $urlHandler      url handler
-     * @param InstanceManager $instanceManager board instance manager
+     * @param  Handler  $handler  handler
+     * @param  ConfigHandler  $configHandler  board config handler
+     * @param  UrlHandler  $urlHandler  url handler
+     * @param  InstanceManager  $instanceManager  board instance manager
      */
     public function __construct(
         Handler $handler,
@@ -96,7 +97,7 @@ class BoardSettingsController extends Controller
         $this->handler = $handler;
         $this->configHandler = $configHandler;
         $this->urlHandler = $urlHandler;
-        $this->instanceManager =  $instanceManager;
+        $this->instanceManager = $instanceManager;
 
         $this->presenter = app('xe.presenter');
 
@@ -109,8 +110,8 @@ class BoardSettingsController extends Controller
     /**
      * global config edit
      *
-     * @param BoardPermissionHandler $boardPermission board permission handler
-     * @param CaptchaManager         $captcha         Captcha manager
+     * @param  BoardPermissionHandler  $boardPermission  board permission handler
+     * @param  CaptchaManager  $captcha  Captcha manager
      * @return mixed|\Xpressengine\Presenter\Presentable
      */
     public function editGlobalConfig(BoardPermissionHandler $boardPermission, CaptchaManager $captcha)
@@ -134,12 +135,12 @@ class BoardSettingsController extends Controller
     /**
      * global config update
      *
-     * @param Request $request request
+     * @param  Request  $request  request
      * @return mixed
      */
     public function updateGlobalConfig(Request $request)
     {
-        if ($request->get('useCaptcha') === 'true' && !app('xe.captcha')->available()) {
+        if ($request->get('useCaptcha') === 'true' && ! app('xe.captcha')->available()) {
             throw new ConfigurationNotExistsException();
         }
 
@@ -159,7 +160,7 @@ class BoardSettingsController extends Controller
     /**
      * global permission edit
      *
-     * @param BoardPermissionHandler $boardPermission board permission handler
+     * @param  BoardPermissionHandler  $boardPermission  board permission handler
      * @return mixed|\Xpressengine\Presenter\Presentable
      */
     public function editGlobalPermission(BoardPermissionHandler $boardPermission)
@@ -174,8 +175,8 @@ class BoardSettingsController extends Controller
     /**
      * global permission update
      *
-     * @param Request                $request         request
-     * @param BoardPermissionHandler $boardPermission board permission
+     * @param  Request  $request  request
+     * @param  BoardPermissionHandler  $boardPermission  board permission
      * @return mixed
      */
     public function updateGlobalPermission(Request $request, BoardPermissionHandler $boardPermission)
@@ -202,8 +203,8 @@ class BoardSettingsController extends Controller
     /**
      * edit
      *
-     * @param CaptchaManager $captcha Captcha manager
-     * @param string         $boardId board instance id
+     * @param  CaptchaManager  $captcha  Captcha manager
+     * @param  string  $boardId  board instance id
      * @return \Xpressengine\Presenter\Presentable
      */
     public function editConfig(CaptchaManager $captcha, $boardId)
@@ -212,7 +213,7 @@ class BoardSettingsController extends Controller
 
         $sortListColumns = $this->configHandler->getSortListColumns($config);
         $sortFormColumns = $this->configHandler->getSortFormColumns($config);
-        
+
         $dynamicFields = [];
         $fieldTypes = $this->configHandler->getDynamicFields($config);
         foreach ($fieldTypes as $fieldType) {
@@ -225,20 +226,20 @@ class BoardSettingsController extends Controller
             'captcha' => $captcha,
             'sortListColumns' => $sortListColumns,
             'sortFormColumns' => $sortFormColumns,
-            'dynamicFields' => $dynamicFields
+            'dynamicFields' => $dynamicFields,
         ]);
     }
 
     /**
      * update
      *
-     * @param Request $request request
-     * @param string  $boardId board instance id
+     * @param  Request  $request  request
+     * @param  string  $boardId  board instance id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function updateConfig(Request $request, $boardId)
     {
-        if ($request->get('useCaptcha') === 'true' && !app('xe.captcha')->available()) {
+        if ($request->get('useCaptcha') === 'true' && ! app('xe.captcha')->available()) {
             throw new ConfigurationNotExistsException();
         }
 
@@ -267,8 +268,8 @@ class BoardSettingsController extends Controller
         foreach ($config->getPureAll() as $key => $value) {
             // 기본 설정이 아닌 항목 예외 처리
             if (in_array($key, [
-                    'listColumns','formColumns','sortListColumns','sortFormColumns'
-                ]) == true) {
+                'listColumns', 'formColumns', 'sortListColumns', 'sortFormColumns',
+            ]) == true) {
                 continue;
             }
             if ($config->getParent()->get($key) !== null && isset($inputs[$key]) === false) {
@@ -284,15 +285,15 @@ class BoardSettingsController extends Controller
     /**
      * store category
      *
-     * @param CategoryHandler $categoryHandler category handler
-     * @param Request         $request         request
+     * @param  CategoryHandler  $categoryHandler  category handler
+     * @param  Request  $request  request
      * @return mixed
      */
     public function storeCategory(CategoryHandler $categoryHandler, Request $request)
     {
         $boardId = $request->get('boardId');
         $input = [
-            'name' => MenuItem::where('id', $boardId)->get()->first()->title
+            'name' => MenuItem::where('id', $boardId)->get()->first()->title,
         ];
 
         $category = $categoryHandler->createCate($input);
@@ -308,7 +309,6 @@ class BoardSettingsController extends Controller
             $this->instanceManager->updateConfig($config->getPureAll());
         }
 
-
         return XePresenter::makeApi(
             $category->getAttributes()
         );
@@ -317,9 +317,8 @@ class BoardSettingsController extends Controller
     /**
      * edit permission
      *
-     * @param BoardPermissionHandler $boardPermission board permission
-     * @param string                 $boardId         board id
-     *
+     * @param  BoardPermissionHandler  $boardPermission  board permission
+     * @param  string  $boardId  board id
      * @return mixed|\Xpressengine\Presenter\Presentable
      */
     public function editPermission(BoardPermissionHandler $boardPermission, $boardId)
@@ -337,10 +336,10 @@ class BoardSettingsController extends Controller
 
     /**
      * update permission
-     * @param Request                $request         request
-     * @param BoardPermissionHandler $boardPermission board permission
-     * @param string                 $boardId         board id
      *
+     * @param  Request  $request  request
+     * @param  BoardPermissionHandler  $boardPermission  board permission
+     * @param  string  $boardId  board id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function updatePermission(Request $request, BoardPermissionHandler $boardPermission, $boardId)
@@ -353,8 +352,7 @@ class BoardSettingsController extends Controller
     /**
      * edit skin
      *
-     * @param string $boardId board id
-     *
+     * @param  string  $boardId  board id
      * @return mixed|\Xpressengine\Presenter\Presentable
      */
     public function editSkin($boardId)
@@ -373,8 +371,7 @@ class BoardSettingsController extends Controller
     /**
      * edit editor
      *
-     * @param string $boardId board id
-     *
+     * @param  string  $boardId  board id
      * @return mixed|\Xpressengine\Presenter\Presentable
      */
     public function editEditor($boardId)
@@ -393,8 +390,7 @@ class BoardSettingsController extends Controller
     /**
      * edit columns
      *
-     * @param string $boardId board id
-     *
+     * @param  string  $boardId  board id
      * @return mixed|\Xpressengine\Presenter\Presentable
      *
      * @deprecated instead use ColumnSetting or BoardSettingsController@editConfig
@@ -417,9 +413,8 @@ class BoardSettingsController extends Controller
     /**
      * update columns
      *
-     * @param Request $request request
-     * @param string  $boardId board id
-     *
+     * @param  Request  $request  request
+     * @param  string  $boardId  board id
      * @return \Illuminate\Http\RedirectResponse
      *
      * @deprecated instead use ColumnSetting or BoardSettingsController@editConfig
@@ -440,8 +435,7 @@ class BoardSettingsController extends Controller
     /**
      * edit dynamic field
      *
-     * @param string $boardId board id
-     *
+     * @param  string  $boardId  board id
      * @return mixed|\Xpressengine\Presenter\Presentable
      */
     public function editDynamicField($boardId)
@@ -453,6 +447,7 @@ class BoardSettingsController extends Controller
             XeDB::connection(),
             $config->get('revision')
         );
+
         return $this->presenter->make('module.dynamicField', [
             'boardId' => $boardId,
             'dynamicFieldSection' => $dynamicFieldSection,
@@ -462,8 +457,7 @@ class BoardSettingsController extends Controller
     /**
      * edit toggle menu
      *
-     * @param string $boardId board id
-     *
+     * @param  string  $boardId  board id
      * @return mixed|\Xpressengine\Presenter\Presentable
      */
     public function editToggleMenu($boardId)
@@ -479,8 +473,8 @@ class BoardSettingsController extends Controller
     /**
      * document manager
      *
-     * @param Request         $request         request
-     * @param RouteRepository $routeRepository route repository
+     * @param  Request  $request  request
+     * @param  RouteRepository  $routeRepository  route repository
      * @return \Xpressengine\Presenter\Presentable
      */
     public function docsIndex(Request $request, RouteRepository $routeRepository)
@@ -556,13 +550,13 @@ class BoardSettingsController extends Controller
 
     /**
      * get state message
-     * @param string $state state
      *
+     * @param  string  $state  state
      * @return string
      */
     protected function getStateMessage($state)
     {
-        list($searchField, $searchValue) = explode('|', $state);
+        [$searchField, $searchValue] = explode('|', $state);
 
         $stateMessage = 'board::manage.stateFilter.';
 
@@ -607,8 +601,8 @@ class BoardSettingsController extends Controller
      * document manager
      *
      *
-     * @param Request         $request         request
-     * @param RouteRepository $routeRepository route repository
+     * @param  Request  $request  request
+     * @param  RouteRepository  $routeRepository  route repository
      * @return \Xpressengine\Presenter\Presentable
      */
     public function docsTrash(Request $request, RouteRepository $routeRepository)
@@ -645,6 +639,7 @@ class BoardSettingsController extends Controller
         } elseif ($request->get('search_target') == 'title_pure_content') {
             $searchTargetWord = 'titleAndContent';
         }
+
         return $this->presenter->make(
             'docs.trash',
             compact(
@@ -660,7 +655,7 @@ class BoardSettingsController extends Controller
     /**
      * update document approve status
      *
-     * @param Request $request request
+     * @param  Request  $request  request
      * @return \Illuminate\Http\RedirectResponse|Redirect
      */
     public function approve(Request $request)
@@ -694,8 +689,9 @@ class BoardSettingsController extends Controller
     /**
      * destroy document
      *
-     * @param Request $request request
+     * @param  Request  $request  request
      * @return \Illuminate\Http\RedirectResponse|Redirect
+     *
      * @throws \Exception
      */
     public function destroy(Request $request)
@@ -717,8 +713,9 @@ class BoardSettingsController extends Controller
     /**
      * move to trash
      *
-     * @param Request $request request
+     * @param  Request  $request  request
      * @return \Illuminate\Http\RedirectResponse|Redirect
+     *
      * @throws \Exception
      */
     public function trash(Request $request)
@@ -740,8 +737,9 @@ class BoardSettingsController extends Controller
     /**
      * move to restore
      *
-     * @param Request $request request
+     * @param  Request  $request  request
      * @return \Illuminate\Http\RedirectResponse|Redirect
+     *
      * @throws \Exception
      */
     public function restore(Request $request)
@@ -761,8 +759,9 @@ class BoardSettingsController extends Controller
     /**
      * move to move
      *
-     * @param Request $request request
+     * @param  Request  $request  request
      * @return \Illuminate\Http\RedirectResponse|Redirect
+     *
      * @throws \Exception
      */
     public function move(Request $request)
@@ -798,8 +797,9 @@ class BoardSettingsController extends Controller
     /**
      * move to copy
      *
-     * @param Request $request request
+     * @param  Request  $request  request
      * @return \Illuminate\Http\RedirectResponse|Redirect
+     *
      * @throws \Exception
      */
     public function copy(Request $request)
@@ -831,19 +831,19 @@ class BoardSettingsController extends Controller
 
     /**
      * make where
-     * @param Board   $query   query
-     * @param Request $request request
      *
+     * @param  Board  $query  query
+     * @param  Request  $request  request
      * @return mixed
      */
     protected function makeWhere($query, $request)
     {
         //기간 검색
         if ($startDate = $request->get('start_date')) {
-            $query = $query->where('created_at', '>=', $startDate . ' 00:00:00');
+            $query = $query->where('created_at', '>=', $startDate.' 00:00:00');
         }
         if ($endDate = $request->get('end_date')) {
-            $query = $query->where('created_at', '<=', $endDate . ' 23:59:59');
+            $query = $query->where('created_at', '<=', $endDate.' 23:59:59');
         }
 
         //검색어 검색
@@ -884,7 +884,7 @@ class BoardSettingsController extends Controller
             $writers = \XeUser::where(
                 'email',
                 'like',
-                '%' . $request->get('search_keyword') . '%'
+                '%'.$request->get('search_keyword').'%'
             )->selectRaw('id')->get();
 
             $writerIds = [];
@@ -897,7 +897,7 @@ class BoardSettingsController extends Controller
 
         //필터 검색
         if ($state = $request->get('search_state')) {
-            list($searchField, $searchValue) = explode('|', $state);
+            [$searchField, $searchValue] = explode('|', $state);
 
             $query->where($searchField, $searchValue);
         }

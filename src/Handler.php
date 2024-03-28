@@ -5,12 +5,14 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board;
 
 use Xpressengine\Category\Models\CategoryItem;
@@ -22,7 +24,7 @@ use Xpressengine\Document\Models\Document;
 use Xpressengine\Http\Request;
 use Xpressengine\Media\Models\Image;
 use Xpressengine\Media\Models\Media;
-use Xpressengine\Media\Repositories\ImageRepository;
+use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
 use Xpressengine\Plugins\Board\Exceptions\AlreadyExistFavoriteHttpException;
 use Xpressengine\Plugins\Board\Exceptions\NotFoundFavoriteHttpException;
 use Xpressengine\Plugins\Board\Models\Board;
@@ -31,24 +33,23 @@ use Xpressengine\Plugins\Board\Models\BoardData;
 use Xpressengine\Plugins\Board\Models\BoardFavorite;
 use Xpressengine\Plugins\Board\Models\BoardGalleryThumb;
 use Xpressengine\Plugins\Board\Models\BoardSlug;
-use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
+use Xpressengine\Plugins\Comment\Handler as CommentHandler;
 use Xpressengine\Storage\File;
 use Xpressengine\Storage\Storage;
 use Xpressengine\Tag\Tag;
 use Xpressengine\Tag\TagHandler;
 use Xpressengine\User\Models\Guest;
 use Xpressengine\User\UserInterface;
-use Xpressengine\Storage\File as FileModel;
-use Xpressengine\Plugins\Comment\Handler as CommentHandler;
 
 /**
  * Handler
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class Handler
@@ -86,12 +87,12 @@ class Handler
     /**
      * Handler constructor.
      *
-     * @param DocumentHandler $documentHandler document handler(Interception Proxy)
-     * @param Storage         $storage         storage
-     * @param TagHandler      $tag             tag
-     * @param Counter         $readCounter     read counter
-     * @param Counter         $voteCounter     vote counter
-     * @param CommentHandler  $commentHandler  comment handler
+     * @param  DocumentHandler  $documentHandler  document handler(Interception Proxy)
+     * @param  Storage  $storage  storage
+     * @param  TagHandler  $tag  tag
+     * @param  Counter  $readCounter  read counter
+     * @param  Counter  $voteCounter  vote counter
+     * @param  CommentHandler  $commentHandler  comment handler
      */
     public function __construct(
         DocumentHandler $documentHandler,
@@ -132,10 +133,11 @@ class Handler
     /**
      * 글 등록
      *
-     * @param array         $args   arguments
-     * @param UserInterface $user   user
-     * @param ConfigEntity  $config board config entity
+     * @param  array  $args  arguments
+     * @param  UserInterface  $user  user
+     * @param  ConfigEntity  $config  board config entity
      * @return Board
+     *
      * @throws \Exception
      */
     public function add(array $args, UserInterface $user, ConfigEntity $config)
@@ -190,8 +192,8 @@ class Handler
     /**
      * save data
      *
-     * @param Board $board board model
-     * @param array $args  arguments
+     * @param  Board  $board  board model
+     * @param  array  $args  arguments
      * @return void
      */
     protected function saveData(Board $board, array $args)
@@ -225,8 +227,8 @@ class Handler
     /**
      * save slug
      *
-     * @param Board $board board model
-     * @param array $args  arguments
+     * @param  Board  $board  board model
+     * @param  array  $args  arguments
      * @return void
      */
     protected function saveSlug(Board $board, array $args)
@@ -250,8 +252,8 @@ class Handler
     /**
      * save category
      *
-     * @param Board $board board model
-     * @param array $args  arguments
+     * @param  Board  $board  board model
+     * @param  array  $args  arguments
      * @return void
      */
     protected function saveCategory(Board $board, array $args)
@@ -275,9 +277,9 @@ class Handler
 
     /**
      * save cover
-     * @param Board $board board model
-     * @param array $args  arguments
      *
+     * @param  Board  $board  board model
+     * @param  array  $args  arguments
      * @return array
      */
     protected function saveCover(Board $board, array $args)
@@ -304,8 +306,7 @@ class Handler
     /**
      * get Thumb
      *
-     * @param string $boardId boardId
-     *
+     * @param  string  $boardId  boardId
      * @return mixed
      */
     public function getThumb($boardId)
@@ -318,9 +319,8 @@ class Handler
     /**
      * save Thumb
      *
-     * @param Board  $board  board model
-     * @param string $fileId file id
-     *
+     * @param  Board  $board  board model
+     * @param  string  $fileId  file id
      * @return void
      */
     protected function saveThumb(Board $board, $fileId)
@@ -368,9 +368,10 @@ class Handler
     /**
      * set files
      *
-     * @param Board $board board model
-     * @param array $args  arguments
+     * @param  Board  $board  board model
+     * @param  array  $args  arguments
      * @return array
+     *
      * @todo 업데이트 할 때 중복 bind 되어 fileable 이 계속 증가하는 오류가 있음
      */
     protected function setFiles(Board $board, array $args)
@@ -379,14 +380,15 @@ class Handler
         if (empty($args['_files']) === false) {
             $this->storage->sync($board->getKey(), $args['_files']);
         }
+
         return $fileIds;
     }
 
     /**
      * unset files
      *
-     * @param Board $board   board model
-     * @param array $fileIds current uploaded file ids
+     * @param  Board  $board  board model
+     * @param  array  $fileIds  current uploaded file ids
      * @return void
      */
     protected function unsetFiles(Board $board, array $fileIds)
@@ -400,8 +402,8 @@ class Handler
     /**
      * set tags
      *
-     * @param Board $board board model
-     * @param array $args  arguments
+     * @param  Board  $board  board model
+     * @param  array  $args  arguments
      * @return void
      */
     protected function setTags(Board $board, array $args)
@@ -414,8 +416,8 @@ class Handler
     /**
      * unset tags
      *
-     * @param Board $board board model
-     * @param array $args  arguments
+     * @param  Board  $board  board model
+     * @param  array  $args  arguments
      * @return void
      */
     protected function unsetTags(Board $board, array $args)
@@ -432,10 +434,11 @@ class Handler
     /**
      * update document
      *
-     * @param Board        $board  board model
-     * @param array        $args   arguments
-     * @param ConfigEntity $config board config entity
+     * @param  Board  $board  board model
+     * @param  array  $args  arguments
+     * @param  ConfigEntity  $config  board config entity
      * @return mixed
+     *
      * @throws \Exception
      */
     public function put(Board $board, array $args, ConfigEntity $config)
@@ -466,9 +469,10 @@ class Handler
     /**
      * 문서 삭제
      *
-     * @param Board        $board  board model
-     * @param ConfigEntity $config board config entity
+     * @param  Board  $board  board model
+     * @param  ConfigEntity  $config  board config entity
      * @return void
+     *
      * @throws \Exception
      */
     public function remove(Board $board, ConfigEntity $config)
@@ -479,7 +483,7 @@ class Handler
         if ($config->get('recursiveDelete') === true) {
             $query = Board::where('head', $board->head);
             if ($board->reply !== '' && $board->reply !== null) {
-                $query->where('reply', 'like', $board->reply . '%');
+                $query->where('reply', 'like', $board->reply.'%');
             }
             /** @var Board[] $items */
             $items = $query->get();
@@ -527,9 +531,10 @@ class Handler
     /**
      * 문서 휴지통 이동
      *
-     * @param Board        $board  board model
-     * @param ConfigEntity $config board config entity
+     * @param  Board  $board  board model
+     * @param  ConfigEntity  $config  board config entity
      * @return void
+     *
      * @throws \Exception
      */
     public function trash(Board $board, ConfigEntity $config)
@@ -540,7 +545,7 @@ class Handler
         if ($config->get('recursiveDelete') === true) {
             $query = Board::where('head', $board->head);
             if ($board->reply !== '' && $board->reply !== null) {
-                $query->where('reply', 'like', $board->reply . '%');
+                $query->where('reply', 'like', $board->reply.'%');
             }
             /** @var Board[] $items */
             $items = $query->get();
@@ -557,9 +562,10 @@ class Handler
     /**
      * 휴지통에서 문서 복원
      *
-     * @param Board        $board  board model
-     * @param ConfigEntity $config board config entity
+     * @param  Board  $board  board model
+     * @param  ConfigEntity  $config  board config entity
      * @return void
+     *
      * @throws \Exception
      */
     public function restore(Board $board, ConfigEntity $config)
@@ -570,7 +576,7 @@ class Handler
         if ($config->get('recursiveDelete') === true) {
             $query = Board::where('head', $board->head);
             if ($board->reply !== '' && $board->reply !== null) {
-                $query->where('reply', 'like', $board->reply . '%');
+                $query->where('reply', 'like', $board->reply.'%');
             }
             /** @var Board[] $items */
             $items = $query->get();
@@ -587,10 +593,11 @@ class Handler
     /**
      * 게시판 이동
      *
-     * @param Board        $board        board model
-     * @param ConfigEntity $dstConfig    destination board config entity
-     * @param ConfigEntity $originConfig original board config entity
+     * @param  Board  $board  board model
+     * @param  ConfigEntity  $dstConfig  destination board config entity
+     * @param  ConfigEntity  $originConfig  original board config entity
      * @return void
+     *
      * @throws \Exception
      */
     public function move(Board $board, ConfigEntity $dstConfig, ConfigEntity $originConfig)
@@ -603,7 +610,7 @@ class Handler
         if ($originConfig->get('recursiveDelete') === true) {
             $query = Board::where('head', $board->head)->where('id', '<>', $board->id);
             if ($board->reply !== '' && $board->reply !== null) {
-                $query->where('reply', 'like', $board->reply . '%');
+                $query->where('reply', 'like', $board->reply.'%');
             }
             /** @var Board[] $items */
             $items = $query->get();
@@ -639,10 +646,11 @@ class Handler
     /**
      * copy
      *
-     * @param Board         $board  board model
-     * @param UserInterface $user   user
-     * @param ConfigEntity  $config board config entity
+     * @param  Board  $board  board model
+     * @param  UserInterface  $user  user
+     * @param  ConfigEntity  $config  board config entity
      * @return void
+     *
      * @throws \Exception
      */
     public function copy(Board $board, UserInterface $user, ConfigEntity $config)
@@ -743,7 +751,7 @@ class Handler
     /**
      * set approve status
      *
-     * @param Board $board board model
+     * @param  Board  $board  board model
      * @return void
      */
     public function approveSetApprove(Board $board)
@@ -755,7 +763,7 @@ class Handler
     /**
      * set reject status
      *
-     * @param Board $board board model
+     * @param  Board  $board  board model
      * @return void
      */
     public function approveSetReject(Board $board)
@@ -767,7 +775,7 @@ class Handler
     /**
      * set wait status
      *
-     * @param Board $board board model
+     * @param  Board  $board  board model
      * @return void
      */
     public function approveSetWait(Board $board)
@@ -779,9 +787,9 @@ class Handler
     /**
      * 인터셥센을 이용해 서드파티가 처리할 수 있도록 메소드 사용
      *
-     * @param Builder      $query   board model query builder
-     * @param Request      $request request
-     * @param ConfigEntity $config  board config entity
+     * @param  Builder  $query  board model query builder
+     * @param  Request  $request  request
+     * @param  ConfigEntity  $config  board config entity
      * @return Builder
      */
     public function makeWhere(Builder $query, Request $request, ConfigEntity $config)
@@ -803,7 +811,7 @@ class Handler
         if ($request->get('writer') != null && $request->get('writer') !== '') {
             $query = $query->where('writer', $request->get('writer'));
         }
-        
+
         if ($request->get('user_id') !== null && $request->get('user_id') !== '') {
             $query = $query->where('user_id', $request->get('user_id'));
         }
@@ -818,11 +826,11 @@ class Handler
         }
 
         if ($request->get('start_created_at') != null && $request->get('start_created_at') !== '') {
-            $query = $query->where('created_at', '>=', $request->get('start_created_at') . ' 00:00:00');
+            $query = $query->where('created_at', '>=', $request->get('start_created_at').' 00:00:00');
         }
 
         if ($request->get('end_created_at') != null && $request->get('end_created_at') !== '') {
-            $query = $query->where('created_at', '<=', $request->get('end_created_at') . ' 23:59:59');
+            $query = $query->where('created_at', '<=', $request->get('end_created_at').' 23:59:59');
         }
 
         if ($searchTagName = $request->get('searchTag')) {
@@ -850,9 +858,9 @@ class Handler
     /**
      * 인터셥센을 이용해 서드파티가 처리할 수 있도록 메소드 사용
      *
-     * @param Builder      $query   board model query builder
-     * @param Request      $request request
-     * @param ConfigEntity $config  board config entity
+     * @param  Builder  $query  board model query builder
+     * @param  Request  $request  request
+     * @param  ConfigEntity  $config  board config entity
      * @return Builder
      */
     public function makeOrder(Builder $query, Request $request, ConfigEntity $config)
@@ -894,8 +902,8 @@ class Handler
     /**
      * increment read count
      *
-     * @param Board         $board board model
-     * @param UserInterface $user  user
+     * @param  Board  $board  board model
+     * @param  UserInterface  $user  user
      * @return void
      */
     public function incrementReadCount(Board $board, UserInterface $user)
@@ -912,10 +920,10 @@ class Handler
     /**
      * vote
      *
-     * @param Board         $board  board model
-     * @param UserInterface $user   user
-     * @param string        $option 'assent' or 'dissent'
-     * @param int           $point  vote point
+     * @param  Board  $board  board model
+     * @param  UserInterface  $user  user
+     * @param  string  $option  'assent' or 'dissent'
+     * @param  int  $point  vote point
      * @return void
      */
     public function vote(Board $board, UserInterface $user, $option, $point = 1)
@@ -930,10 +938,10 @@ class Handler
     /**
      * increment vote count
      *
-     * @param Board         $board  board model
-     * @param UserInterface $user   user
-     * @param string        $option 'assent' or 'dissent'
-     * @param int           $point  vote point
+     * @param  Board  $board  board model
+     * @param  UserInterface  $user  user
+     * @param  string  $option  'assent' or 'dissent'
+     * @param  int  $point  vote point
      * @return void
      */
     public function incrementVoteCount(Board $board, UserInterface $user, $option, $point = 1)
@@ -951,9 +959,9 @@ class Handler
     /**
      * decrement vote count
      *
-     * @param Board         $board  board model
-     * @param UserInterface $user   user
-     * @param string        $option 'assent' or 'dissent'
+     * @param  Board  $board  board model
+     * @param  UserInterface  $user  user
+     * @param  string  $option  'assent' or 'dissent'
      * @return void
      */
     public function decrementVoteCount(Board $board, UserInterface $user, $option)
@@ -971,9 +979,9 @@ class Handler
     /**
      * has vote
      *
-     * @param Board         $board  board model
-     * @param UserInterface $user   user
-     * @param string        $option 'assent' or 'dissent'
+     * @param  Board  $board  board model
+     * @param  UserInterface  $user  user
+     * @param  string  $option  'assent' or 'dissent'
      * @return bool
      */
     public function hasVote(Board $board, $user, $option)
@@ -984,8 +992,8 @@ class Handler
     /**
      * check has favorite
      *
-     * @param string $boardId board id
-     * @param string $userId  user id
+     * @param  string  $boardId  board id
+     * @param  string  $userId  user id
      * @return bool
      */
     public function hasFavorite($boardId, $userId)
@@ -996,8 +1004,8 @@ class Handler
     /**
      * add favorite
      *
-     * @param string $boardId board id
-     * @param string $userId  user id
+     * @param  string  $boardId  board id
+     * @param  string  $userId  user id
      * @return BoardFavorite
      */
     public function addFavorite($boardId, $userId)
@@ -1017,8 +1025,8 @@ class Handler
     /**
      * remove favorite
      *
-     * @param string $boardId board id
-     * @param string $userId  user id
+     * @param  string  $boardId  board id
+     * @param  string  $userId  user id
      * @return void
      */
     public function removeFavorite($boardId, $userId)
@@ -1065,9 +1073,9 @@ class Handler
      * )
      * ```
      *
-     * @param Builder      $query  orm builder
-     * @param ConfigEntity $config board config
-     * @param string       $id     document id
+     * @param  Builder  $query  orm builder
+     * @param  ConfigEntity  $config  board config
+     * @param  string  $id  document id
      * @return int
      */
     public function pageResolver(Builder $query, ConfigEntity $config, $id)
@@ -1081,43 +1089,43 @@ class Handler
         $clone->where(function ($clone) use ($orders, $doc) {
             $orderCount = count($orders);
 
-            for ($i=0; $i<$orderCount; $i++) {
+            for ($i = 0; $i < $orderCount; $i++) {
                 $clone->Orwhere(function ($clone) use ($orders, $doc, $i) {
                     if ($i != 0) {
-                        for ($j=0; $j<$i; $j++) {
+                        for ($j = 0; $j < $i; $j++) {
                             $op = '=';
                             if ($clone->getQuery()->getConnection()->getSchemaBuilder()->hasColumn($clone->getQuery()->from, $orders[$j]['column'])) {
                                 $clone->where($orders[$j]['column'], $op, $doc->{$orders[$j]['column']});
                             } else {
                                 $params = [
-                                   $orders[$j]['column'] => [$doc->{$orders[$j]['column']}, $op]
+                                    $orders[$j]['column'] => [$doc->{$orders[$j]['column']}, $op],
                                 ];
                                 $clone->getProxyManager()->wheres($clone->getQuery(), $params);
                             }
                         }
                     }
 
-                        $op = '>=';
-                        if ($orders[$i]['direction'] == 'asc') {
-                            $op = '<=';
-                        }
+                    $op = '>=';
+                    if ($orders[$i]['direction'] == 'asc') {
+                        $op = '<=';
+                    }
 
-                        if ($clone->getQuery()->getConnection()->getSchemaBuilder()->hasColumn($clone->getQuery()->from, $orders[$i]['column'])) {
-                            $clone->where($orders[$i]['column'], $op, $doc->{$orders[$i]['column']});
-                        } else {
-                            $params = [
-                                $orders[$i]['column'] => [$doc->{$orders[$i]['column']}, $op]
-                            ];
-                            $clone->getProxyManager()->wheres($clone->getQuery(), $params);
-                        }
+                    if ($clone->getQuery()->getConnection()->getSchemaBuilder()->hasColumn($clone->getQuery()->from, $orders[$i]['column'])) {
+                        $clone->where($orders[$i]['column'], $op, $doc->{$orders[$i]['column']});
+                    } else {
+                        $params = [
+                            $orders[$i]['column'] => [$doc->{$orders[$i]['column']}, $op],
+                        ];
+                        $clone->getProxyManager()->wheres($clone->getQuery(), $params);
+                    }
                 });
             }
         });
 
         $count = $clone->count();
-        $page = (int)($count / $config->get('perPage'));
+        $page = (int) ($count / $config->get('perPage'));
         if ($count % $config->get('perPage') != 0) {
-            ++$page;
+            $page++;
         }
         if ($page == 0) {
             $page = 1;

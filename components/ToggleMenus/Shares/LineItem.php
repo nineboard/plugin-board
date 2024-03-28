@@ -5,10 +5,11 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 
@@ -20,10 +21,11 @@ use Xpressengine\ToggleMenu\AbstractToggleMenu;
  * LineItem
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class LineItem extends AbstractToggleMenu
@@ -57,7 +59,8 @@ class LineItem extends AbstractToggleMenu
      */
     public function getAction()
     {
-        $url = 'http://line.me/R/msg/text/?title=' . urlencode(app('request')->get('url'));
+        $url = 'http://line.me/R/msg/text/?title='.urlencode(app('request')->get('url'));
+
         return '<a href="#" class="share-item" data-url="'.$url.'" data-type="line"><i class="xi-line-messenger"></i>'
         .$this->getText().'</a>';
     }

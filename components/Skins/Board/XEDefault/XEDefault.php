@@ -5,36 +5,36 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2020 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 
 namespace Xpressengine\Plugins\Board\Components\Skins\Board\XEDefault;
 
+use Gate;
+use View;
+use XePresenter;
+use XeRegister;
 use Xpressengine\Permission\Instance;
 use Xpressengine\Plugins\Board\BoardPermissionHandler;
+use Xpressengine\Plugins\Board\Components\DynamicFields\Category\Skins\DesignSelect\DesignSelectSkin;
 use Xpressengine\Plugins\Board\ConfigHandler;
 use Xpressengine\Plugins\Board\GenericBoardSkin;
-use View;
-use Gate;
-use XeFrontend;
-use XeRegister;
-use XePresenter;
-Use XeSkin;
-use Xpressengine\Plugins\Board\Components\DynamicFields\Category\Skins\DesignSelect\DesignSelectSkin;
 use Xpressengine\Presenter\Presenter;
 
 /**
  * XEDefault
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2020 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class XEDefault extends GenericBoardSkin
@@ -51,7 +51,7 @@ class XEDefault extends GenericBoardSkin
         $this->setSkinConfig();
         $this->setDynamicFieldSkins();
         $this->setPaginationPresenter();
-        
+
         // set skin path
         $this->data['_skinPath'] = static::$path;
         $this->data['isManager'] = $this->isManager();
@@ -90,27 +90,27 @@ class XEDefault extends GenericBoardSkin
     {
         /** @var ConfigHandler $configHandler */
         $configHandler = app('xe.board.config');
-        
-//        TODO instanceId 개선 확인
+
+        //        TODO instanceId 개선 확인
         $arr = explode(':', request()->get('instanceId'));
         $instanceId = $arr[1];
-        
+
         $boardConfig = $configHandler->get($instanceId);
-        
+
         $config['boardConfig'] = $boardConfig;
         $config['sortListColumns'] = $configHandler->getSortListColumns($boardConfig);
         $config['listColumns'] = $boardConfig->get('listColumns');
-        
+
         $dynamicFields = [];
         $fieldTypes = $configHandler->getDynamicFields($boardConfig);
         foreach ($fieldTypes as $fieldType) {
             $dynamicFields[$fieldType->get('id')] = $fieldType;
         }
         $config['dynamicFields'] = $dynamicFields;
-        
+
         return parent::renderSetting($config);
     }
-    
+
     public function resolveSetting(array $inputs = [])
     {
         if (isset($inputs['visibleIndexMobileWriteButton']) === false) {
@@ -120,7 +120,7 @@ class XEDefault extends GenericBoardSkin
         if (isset($inputs['visibleIndexDefaultProfileImage']) === false) {
             $inputs['visibleIndexDefaultProfileImage'] = '';
         }
-        
+
         if (isset($inputs['visibleShowProfileImage']) === false) {
             $inputs['visibleShowProfileImage'] = '';
         }
@@ -136,7 +136,7 @@ class XEDefault extends GenericBoardSkin
         if (isset($inputs['visibleShowCreatedAt']) === false) {
             $inputs['visibleShowCreatedAt'] = '';
         }
-        
+
         return parent::resolveSetting($inputs);
     }
 
@@ -155,7 +155,7 @@ class XEDefault extends GenericBoardSkin
 
         $this->config['formColumns'] = $this->data['config']->get('formColumns');
         $this->config['listColumns'] = $this->data['config']->get('listColumns');
-//        TODO skinConfig 스킨 변수로 변경
+        //        TODO skinConfig 스킨 변수로 변경
         $this->data['skinConfig'] = $this->config;
     }
 
@@ -174,6 +174,7 @@ class XEDefault extends GenericBoardSkin
      * set pagination presenter
      *
      * @return void
+     *
      * @see views/defaultSkin/index.blade.php
      */
     protected function setPaginationPresenter()
@@ -191,6 +192,7 @@ class XEDefault extends GenericBoardSkin
     protected function isManager()
     {
         $boardPermission = app('xe.board.permission');
+
         return isset($this->data['instanceId']) && Gate::allows(
             BoardPermissionHandler::ACTION_MANAGE,
             new Instance($boardPermission->name($this->data['instanceId']))

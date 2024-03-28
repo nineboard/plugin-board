@@ -5,44 +5,40 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Controllers;
 
-use XeDocument;
-use XePresenter;
-use XeFrontend;
-use XeEditor;
-use XeSEO;
-use XeStorage;
-use XeTag;
+use App\Http\Controllers\Controller;
 use Auth;
 use Gate;
-use Event;
-use App\Http\Controllers\Controller;
+use XeEditor;
+use XePresenter;
+use XeSEO;
 use Xpressengine\Category\Models\Category;
 use Xpressengine\Category\Models\CategoryItem;
 use Xpressengine\Config\ConfigEntity;
 use Xpressengine\Counter\Exceptions\GuestNotSupportException;
 use Xpressengine\Document\Models\Document;
+use Xpressengine\Editor\PurifierModules\EditorContent;
 use Xpressengine\Http\Request;
 use Xpressengine\Permission\Instance;
+use Xpressengine\Plugins\Board\BoardPermissionHandler;
+use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
 use Xpressengine\Plugins\Board\ConfigHandler;
-use Xpressengine\Plugins\Board\Exceptions\CaptchaNotVerifiedException;
 use Xpressengine\Plugins\Board\Exceptions\GuestWrittenSecretDocumentException;
 use Xpressengine\Plugins\Board\Exceptions\HaveNoWritePermissionHttpException;
 use Xpressengine\Plugins\Board\Exceptions\NotFoundDocumentException;
 use Xpressengine\Plugins\Board\Exceptions\NotMatchedCertifyKeyException;
-use Xpressengine\Plugins\Board\Exceptions\SecretDocumentHttpException;
 use Xpressengine\Plugins\Board\Handler;
 use Xpressengine\Plugins\Board\IdentifyManager;
 use Xpressengine\Plugins\Board\Models\Board;
-use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
-use Xpressengine\Plugins\Board\BoardPermissionHandler;
 use Xpressengine\Plugins\Board\Models\BoardSlug;
 use Xpressengine\Plugins\Board\Services\BoardService;
 use Xpressengine\Plugins\Board\UrlHandler;
@@ -51,7 +47,6 @@ use Xpressengine\Routing\InstanceConfig;
 use Xpressengine\Support\Exceptions\AccessDeniedHttpException;
 use Xpressengine\Support\Purifier;
 use Xpressengine\Support\PurifierModules\Html5;
-use Xpressengine\Editor\PurifierModules\EditorContent;
 use Xpressengine\User\Models\User;
 use Xpressengine\User\UserInterface;
 
@@ -61,10 +56,11 @@ use Xpressengine\User\UserInterface;
  * 메뉴에서 게시판 추가할 때 추가된 게시판 관리
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class BoardModuleController extends Controller
@@ -104,9 +100,9 @@ class BoardModuleController extends Controller
     /**
      * constructor.
      *
-     * @param Handler       $handler       board handler
-     * @param ConfigHandler $configHandler board config handler
-     * @param UrlHandler    $urlHandler    board url handler
+     * @param  Handler  $handler  board handler
+     * @param  ConfigHandler  $configHandler  board config handler
+     * @param  UrlHandler  $urlHandler  board url handler
      */
     public function __construct(
         Handler $handler,
@@ -137,10 +133,11 @@ class BoardModuleController extends Controller
     /**
      * index page
      *
-     * @param BoardService           $service         board service
-     * @param Request                $request         request
-     * @param BoardPermissionHandler $boardPermission board permission handler
+     * @param  BoardService  $service  board service
+     * @param  Request  $request  request
+     * @param  BoardPermissionHandler  $boardPermission  board permission handler
      * @return \Xpressengine\Presenter\Presentable
+     *
      * @throws AccessDeniedHttpException
      */
     public function index(BoardService $service, Request $request, BoardPermissionHandler $boardPermission)
@@ -179,18 +176,18 @@ class BoardModuleController extends Controller
             'orders' => $orders,
             'dynamicFieldsById' => $dynamicFieldsById,
             'searchOptions' => $searchOptions,
-            'isWritable' => $isWritable
+            'isWritable' => $isWritable,
         ]);
     }
 
     /**
      * show
      *
-     * @param BoardService           $service         board service
-     * @param Request                $request         request
-     * @param BoardPermissionHandler $boardPermission board permission handler
-     * @param string                 $menuUrl         first segment
-     * @param string                 $id              document id
+     * @param  BoardService  $service  board service
+     * @param  Request  $request  request
+     * @param  BoardPermissionHandler  $boardPermission  board permission handler
+     * @param  string  $menuUrl  first segment
+     * @param  string  $id  document id
      * @return mixed
      */
     public function show(
@@ -259,19 +256,18 @@ class BoardModuleController extends Controller
             'fieldTypes' => $fieldTypes,
             'dynamicFieldsById' => $dynamicFieldsById,
             'searchOptions' => $searchOptions,
-            'boardMoreItems' => $boardMoreItems
+            'boardMoreItems' => $boardMoreItems,
         ]);
     }
 
     /**
      * print
      *
-     * @param BoardService           $service         board service
-     * @param Request                $request         request
-     * @param BoardPermissionHandler $boardPermission board permission
-     * @param string                 $menuUrl         menu url
-     * @param string                 $id              board id
-     *
+     * @param  BoardService  $service  board service
+     * @param  Request  $request  request
+     * @param  BoardPermissionHandler  $boardPermission  board permission
+     * @param  string  $menuUrl  menu url
+     * @param  string  $id  board id
      * @return mixed|\Xpressengine\Presenter\Presentable
      */
     public function print(
@@ -325,11 +321,11 @@ class BoardModuleController extends Controller
     /**
      * show by slug
      *
-     * @param BoardService           $service         board service
-     * @param Request                $request         request
-     * @param BoardPermissionHandler $boardPermission board permission handler
-     * @param string                 $menuUrl         first segment
-     * @param string                 $strSlug         document slug
+     * @param  BoardService  $service  board service
+     * @param  Request  $request  request
+     * @param  BoardPermissionHandler  $boardPermission  board permission handler
+     * @param  string  $menuUrl  first segment
+     * @param  string  $strSlug  document slug
      * @return \Xpressengine\Presenter\Presentable
      */
     public function slug(
@@ -355,11 +351,11 @@ class BoardModuleController extends Controller
     /**
      * show by serial number
      *
-     * @param BoardService           $service         board service
-     * @param Request                $request         request
-     * @param BoardPermissionHandler $boardPermission board permission handler
-     * @param string                 $menuUrl         first segment
-     * @param string                 $serialNumber    document serial number
+     * @param  BoardService  $service  board service
+     * @param  Request  $request  request
+     * @param  BoardPermissionHandler  $boardPermission  board permission handler
+     * @param  string  $menuUrl  first segment
+     * @param  string  $serialNumber  document serial number
      * @return \Xpressengine\Presenter\Presentable
      */
     public function num(
@@ -385,11 +381,11 @@ class BoardModuleController extends Controller
     /**
      * show by itemId
      *
-     * @param BoardService           $service         board service
-     * @param Request                $request         request
-     * @param BoardPermissionHandler $boardPermission board permission handler
-     * @param string                 $menuUrl         first segment
-     * @param string                 $itemId          document id
+     * @param  BoardService  $service  board service
+     * @param  Request  $request  request
+     * @param  BoardPermissionHandler  $boardPermission  board permission handler
+     * @param  string  $menuUrl  first segment
+     * @param  string  $itemId  document id
      * @return \Xpressengine\Presenter\Presentable
      */
     public function showByItemId(
@@ -412,7 +408,6 @@ class BoardModuleController extends Controller
                 return redirect(instance_route('num', ['serialNumber' => $slug->id]));
             }
 
-
         }
 
         return $this->show($service, $request, $boardPermission, $menuUrl, $itemId);
@@ -421,10 +416,10 @@ class BoardModuleController extends Controller
     /**
      * create
      *
-     * @param BoardService           $service         board service
-     * @param Request                $request         request
-     * @param Validator              $validator       validator
-     * @param BoardPermissionHandler $boardPermission board permission handler
+     * @param  BoardService  $service  board service
+     * @param  Request  $request  request
+     * @param  Validator  $validator  validator
+     * @param  BoardPermissionHandler  $boardPermission  board permission handler
      * @return mixed
      */
     public function create(
@@ -468,11 +463,11 @@ class BoardModuleController extends Controller
     /**
      * create
      *
-     * @param BoardService           $service         board service
-     * @param Request                $request         request
-     * @param Validator              $validator       validator
-     * @param BoardPermissionHandler $boardPermission board permission handler
-     * @param IdentifyManager        $identifyManager identify manager
+     * @param  BoardService  $service  board service
+     * @param  Request  $request  request
+     * @param  Validator  $validator  validator
+     * @param  BoardPermissionHandler  $boardPermission  board permission handler
+     * @param  IdentifyManager  $identifyManager  identify manager
      * @return mixed
      */
     public function store(
@@ -533,7 +528,7 @@ class BoardModuleController extends Controller
     /**
      * 문자열을 넘겨 slug 반환
      *
-     * @param Request $request request
+     * @param  Request  $request  request
      * @return mixed
      */
     public function hasSlug(Request $request)
@@ -549,12 +544,12 @@ class BoardModuleController extends Controller
     /**
      * edit
      *
-     * @param BoardService    $service         board service
-     * @param Request         $request         request
-     * @param Validator       $validator       validator
-     * @param IdentifyManager $identifyManager identify manager
-     * @param string          $menuUrl         first segment
-     * @param string          $id              document id
+     * @param  BoardService  $service  board service
+     * @param  Request  $request  request
+     * @param  Validator  $validator  validator
+     * @param  IdentifyManager  $identifyManager  identify manager
+     * @param  string  $menuUrl  first segment
+     * @param  string  $id  document id
      * @return \Xpressengine\Presenter\Presentable
      */
     public function edit(
@@ -616,11 +611,11 @@ class BoardModuleController extends Controller
     /**
      * update
      *
-     * @param BoardService    $service         board service
-     * @param Request         $request         request
-     * @param Validator       $validator       validator
-     * @param IdentifyManager $identifyManager identify manager
-     * @param string          $menuUrl         first segment
+     * @param  BoardService  $service  board service
+     * @param  Request  $request  request
+     * @param  Validator  $validator  validator
+     * @param  IdentifyManager  $identifyManager  identify manager
+     * @param  string  $menuUrl  first segment
      * @return \Xpressengine\Presenter\Presentable
      */
     public function update(
@@ -688,11 +683,11 @@ class BoardModuleController extends Controller
     /**
      * 비회원 인증 페이지
      *
-     * @param Request   $request   request
-     * @param Validator $validator validator
-     * @param string    $menuUrl   first segment
-     * @param string    $id        document id
-     * @param string    $referrer  referrer url
+     * @param  Request  $request  request
+     * @param  Validator  $validator  validator
+     * @param  string  $menuUrl  first segment
+     * @param  string  $id  document id
+     * @param  string  $referrer  referrer url
      * @return mixed
      */
     public function guestId(Request $request, Validator $validator, $menuUrl, $id, $referrer = null)
@@ -718,11 +713,11 @@ class BoardModuleController extends Controller
     /**
      * 비회원 인증 처리
      *
-     * @param Request         $request         request
-     * @param IdentifyManager $identifyManager identify manager
-     * @param Validator       $validator       validator
-     * @param string          $menuUrl         first segment
-     * @param string          $id              document id
+     * @param  Request  $request  request
+     * @param  IdentifyManager  $identifyManager  identify manager
+     * @param  Validator  $validator  validator
+     * @param  string  $menuUrl  first segment
+     * @param  string  $id  document id
      * @return mixed
      */
     public function guestCertify(
@@ -749,10 +744,10 @@ class BoardModuleController extends Controller
     /**
      * 미리보기
      *
-     * @param Request                $request         request
-     * @param BoardService           $service         board service
-     * @param Validator              $validator       validator
-     * @param BoardPermissionHandler $boardPermission board permission handler
+     * @param  Request  $request  request
+     * @param  BoardService  $service  board service
+     * @param  Validator  $validator  validator
+     * @param  BoardPermissionHandler  $boardPermission  board permission handler
      * @return mixed
      */
     public function preview(
@@ -817,12 +812,12 @@ class BoardModuleController extends Controller
     /**
      * destroy
      *
-     * @param BoardService    $service         board service
-     * @param Request         $request         request
-     * @param Validator       $validator       validator
-     * @param IdentifyManager $identifyManager identify manager
-     * @param string          $menuUrl         first segment
-     * @param string          $id              document id
+     * @param  BoardService  $service  board service
+     * @param  Request  $request  request
+     * @param  Validator  $validator  validator
+     * @param  IdentifyManager  $identifyManager  identify manager
+     * @param  string  $menuUrl  first segment
+     * @param  string  $id  document id
      * @return \Xpressengine\Presenter\Presentable
      */
     public function destroy(
@@ -864,9 +859,10 @@ class BoardModuleController extends Controller
     /**
      * trash
      *
-     * @param BoardService $service board service
-     * @param Request      $request request
+     * @param  BoardService  $service  board service
+     * @param  Request  $request  request
      * @return mixed
+     *
      * @throws \Exception
      */
     public function trash(BoardService $service, Request $request)
@@ -895,8 +891,8 @@ class BoardModuleController extends Controller
     /**
      * 즐겨찾기 등록, 삭제
      *
-     * @param string $menuUrl first segment
-     * @param string $id      document id
+     * @param  string  $menuUrl  first segment
+     * @param  string  $id  document id
      * @return \Xpressengine\Presenter\Presentable
      */
     public function favorite($menuUrl, $id)
@@ -921,14 +917,14 @@ class BoardModuleController extends Controller
     /**
      * 투표 정보
      *
-     * @param Request $request request
-     * @param string  $id      document id
+     * @param  Request  $request  request
+     * @param  string  $id  document id
      * @return \Xpressengine\Presenter\Presentable
      */
     public function showVote(Request $request, $id)
     {
         // display 설정
-        $display =['assent' => true, 'dissent' => true];
+        $display = ['assent' => true, 'dissent' => true];
         if ($this->config->get('assent') !== true) {
             $display['assent'] = false;
         }
@@ -958,10 +954,10 @@ class BoardModuleController extends Controller
     /**
      * 좋아요 추가, 삭제
      *
-     * @param Request $request request
-     * @param string  $menuUrl first segment
-     * @param string  $option  options
-     * @param string  $id      document id
+     * @param  Request  $request  request
+     * @param  string  $menuUrl  first segment
+     * @param  string  $option  options
+     * @param  string  $id  document id
      * @return \Xpressengine\Presenter\Presentable
      */
     public function vote(Request $request, $menuUrl, $option, $id)
@@ -982,10 +978,10 @@ class BoardModuleController extends Controller
     /**
      * get voted user list
      *
-     * @param Request $request request
-     * @param string  $menuUrl first segment
-     * @param string  $option  options
-     * @param string  $id      document id
+     * @param  Request  $request  request
+     * @param  string  $menuUrl  first segment
+     * @param  string  $option  options
+     * @param  string  $id  document id
      * @return mixed
      */
     public function votedUsers(Request $request, $menuUrl, $option, $id)
@@ -1010,10 +1006,10 @@ class BoardModuleController extends Controller
     /**
      * get voted user modal
      *
-     * @param Request $request request
-     * @param string  $menuUrl first segment
-     * @param string  $option  options
-     * @param string  $id      document id
+     * @param  Request  $request  request
+     * @param  string  $menuUrl  first segment
+     * @param  string  $option  options
+     * @param  string  $id  document id
      * @return mixed
      */
     public function votedModal(Request $request, $menuUrl, $option, $id)
@@ -1036,10 +1032,10 @@ class BoardModuleController extends Controller
     /**
      * get voted user list
      *
-     * @param Request $request request
-     * @param string  $menuUrl first segment
-     * @param string  $option  options
-     * @param string  $id      document id
+     * @param  Request  $request  request
+     * @param  string  $menuUrl  first segment
+     * @param  string  $option  options
+     * @param  string  $id  document id
      * @return mixed
      */
     public function votedUserList(Request $request, $menuUrl, $option, $id)
@@ -1071,7 +1067,7 @@ class BoardModuleController extends Controller
                 'id' => $user->getId(),
                 'displayName' => $user->getDisplayName(),
                 'profileImage' => $user->getProfileImage(),
-                'createdAt' => (string)$log->created_at,
+                'createdAt' => (string) $log->created_at,
                 'profilePage' => $profilePage,
             ];
         }
@@ -1096,6 +1092,7 @@ class BoardModuleController extends Controller
     protected function isManager()
     {
         $boardPermission = app('xe.board.permission');
+
         return Gate::allows(
             BoardPermissionHandler::ACTION_MANAGE,
             new Instance($boardPermission->name($this->instanceId))
@@ -1114,7 +1111,7 @@ class BoardModuleController extends Controller
         $instanceConfig = InstanceConfig::instance();
         $menuItem = $instanceConfig->getMenuItem();
 
-        $title = xe_trans($menuItem['title']) . ' - ' . xe_trans($siteTitle);
+        $title = xe_trans($menuItem['title']).' - '.xe_trans($siteTitle);
         $title = strip_tags(html_entity_decode($title));
 
         return $title;

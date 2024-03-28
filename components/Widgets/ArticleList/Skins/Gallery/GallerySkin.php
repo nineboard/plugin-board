@@ -1,12 +1,13 @@
 <?php
+
 namespace Xpressengine\Plugins\Board\Components\Widgets\ArticleList\Skins\Gallery;
 
+use View;
 use Xpressengine\Media\Repositories\ImageRepository;
+use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
 use Xpressengine\Plugins\Board\Models\Board;
 use Xpressengine\Plugins\Board\Models\BoardGalleryThumb;
-use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
 use Xpressengine\Skin\GenericSkin;
-use View;
 
 class GallerySkin extends GenericSkin
 {
@@ -29,14 +30,13 @@ class GallerySkin extends GenericSkin
         }
         $this->attachThumbnail($list);
 
-
         return parent::render();
     }
 
     /**
      * attach thumbnail for list
      *
-     * @param array $list list of board model
+     * @param  array  $list  list of board model
      * @return void
      */
     public function attachThumbnail($list)
@@ -49,7 +49,7 @@ class GallerySkin extends GenericSkin
     /**
      * bind gallery thumbnail
      *
-     * @param Board $item board model
+     * @param  Board  $item  board model
      * @return void
      */
     protected function bindGalleryThumb(Board $item)
@@ -113,7 +113,7 @@ class GallerySkin extends GenericSkin
     /**
      * get path from content image tag source
      *
-     * @param string $content document content
+     * @param  string  $content  document content
      * @return string
      */
     protected function getImagePathFromContent($content)
@@ -125,7 +125,7 @@ class GallerySkin extends GenericSkin
 
         preg_match_all($pattern, $content, $matches);
         if (isset($matches[1][0])) {
-            $path= $matches[1][0];
+            $path = $matches[1][0];
         }
 
         return $path;
@@ -134,14 +134,13 @@ class GallerySkin extends GenericSkin
     /**
      * 위젯 설정 페이지에 출력할 폼을 출력한다.
      *
-     * @param array $args 설정값
-     *
+     * @param  array  $args  설정값
      * @return string
      */
     public function renderSetting(array $args = [])
     {
         return $view = View::make(sprintf('%s/views/setting', static::$path), [
-            'args'=>$args
+            'args' => $args,
         ]);
     }
 }

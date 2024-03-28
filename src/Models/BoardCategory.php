@@ -5,16 +5,18 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Models;
 
-use Xpressengine\Database\Eloquent\DynamicModel;
 use Xpressengine\Category\Models\CategoryItem;
+use Xpressengine\Database\Eloquent\DynamicModel;
 
 /**
  * BoardCategory
@@ -23,10 +25,11 @@ use Xpressengine\Category\Models\CategoryItem;
  * @property int item_id
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class BoardCategory extends DynamicModel

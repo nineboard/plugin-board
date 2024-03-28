@@ -5,16 +5,18 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Components\UIObjects\DesignSelect;
 
-use Xpressengine\UIObject\AbstractUIObject;
 use View;
+use Xpressengine\UIObject\AbstractUIObject;
 
 /**
  * DesignSelect
@@ -36,10 +38,11 @@ use View;
  * ```
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class DesignSelectUIObject extends AbstractUIObject
@@ -58,6 +61,7 @@ class DesignSelectUIObject extends AbstractUIObject
      * render
      *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function render()
@@ -78,7 +82,7 @@ class DesignSelectUIObject extends AbstractUIObject
             $args['default'] = '';
         }
 
-        if (!isset($args['value']) || $args['value'] === '') {
+        if (! isset($args['value']) || $args['value'] === '') {
             $args['value'] = '';
             $args['text'] = '';
         } else {
@@ -101,13 +105,13 @@ class DesignSelectUIObject extends AbstractUIObject
         return View::make('board::components/UIObjects/DesignSelect/designSelect', $args)->render();
     }
 
-    private static function getSelectedItem ($items, $selectedValue)
+    private static function getSelectedItem($items, $selectedValue)
     {
-        foreach($items as $item) {
+        foreach ($items as $item) {
             if ($item['value'] == $selectedValue) {
                 return [
                     'value' => $item['value'],
-                    'text' => $item['text']
+                    'text' => $item['text'],
                 ];
             }
 
@@ -123,19 +127,19 @@ class DesignSelectUIObject extends AbstractUIObject
     }
 
     /**
-     * @param array $item
-     * @return boolean
+     * @param  array  $item
+     * @return bool
      */
-    public static function hasChildren ($item)
+    public static function hasChildren($item)
     {
         return array_has($item, 'children');
     }
 
     /**
-     * @param array $item
+     * @param  array  $item
      * @return array
      */
-    public static function getChildren ($item)
+    public static function getChildren($item)
     {
         if (array_has($item, 'children')) {
             return array_get($item, 'children');
@@ -144,11 +148,11 @@ class DesignSelectUIObject extends AbstractUIObject
         return [];
     }
 
-    public static function renderList ($items, $value = null)
+    public static function renderList($items, $value = null)
     {
         $args = [
             'items' => $items,
-            'selectedItemValue' => $value
+            'selectedItemValue' => $value,
         ];
 
         return View::make('board::components/UIObjects/DesignSelect/designSelectItem', $args)->render();

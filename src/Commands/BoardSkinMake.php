@@ -5,12 +5,14 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Commands;
 
 use App\Console\Commands\SkinMake;
@@ -19,10 +21,11 @@ use App\Console\Commands\SkinMake;
  * BoardSkinMake
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class BoardSkinMake extends SkinMake
@@ -49,7 +52,7 @@ class BoardSkinMake extends SkinMake
      */
     protected function getTitleInput()
     {
-        return $this->option('title') ?: studly_case($this->getComponentName()) . ' Board skin';
+        return $this->option('title') ?: studly_case($this->getComponentName()).' Board skin';
     }
 
     /**
@@ -65,8 +68,9 @@ class BoardSkinMake extends SkinMake
     /**
      * makeUsable
      *
-     * @param \ArrayAccess|array $attr attributes
+     * @param  \ArrayAccess|array  $attr  attributes
      * @return void
+     *
      * @throws \Exception
      */
     protected function makeUsable($attr)

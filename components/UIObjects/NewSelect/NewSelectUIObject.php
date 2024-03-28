@@ -5,17 +5,18 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2020 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 
 namespace Xpressengine\Plugins\Board\Components\UIObjects\NewSelect;
 
-use XeFrontend;
 use View;
+use XeFrontend;
 use Xpressengine\UIObject\AbstractUIObject;
 
 /**
@@ -39,10 +40,11 @@ use Xpressengine\UIObject\AbstractUIObject;
  * ```
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2020 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class NewSelectUIObject extends AbstractUIObject
@@ -61,12 +63,13 @@ class NewSelectUIObject extends AbstractUIObject
      * render
      *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function render()
     {
         XeFrontend::css('plugins/board/components/UIObjects/NewSelect/assets/css/newSelectStyle.css')->load();
-        
+
         $args = $this->arguments;
 
         if (empty($args['name'])) {
@@ -84,10 +87,10 @@ class NewSelectUIObject extends AbstractUIObject
         }
 
         if (empty($args['open_target'])) {
-            $args['open_target'] = '.xe-dropdown--menu--' . $args['name'];
+            $args['open_target'] = '.xe-dropdown--menu--'.$args['name'];
         }
-        
-        if (!isset($args['value']) || $args['value'] === '') {
+
+        if (! isset($args['value']) || $args['value'] === '') {
             $args['value'] = '';
             $args['text'] = '';
         } else {
@@ -105,7 +108,7 @@ class NewSelectUIObject extends AbstractUIObject
             self::$loaded = true;
 
             $args['scriptInit'] = true;
-            
+
             XeFrontend::js('plugins/board/components/UIObjects/NewSelect/assets/js/newSelect.js')->load();
         }
 
@@ -114,11 +117,11 @@ class NewSelectUIObject extends AbstractUIObject
 
     private static function getSelectedItem($items, $selectedValue)
     {
-        foreach($items as $item) {
-            if ((string)$item['value'] === (string)$selectedValue) {
+        foreach ($items as $item) {
+            if ((string) $item['value'] === (string) $selectedValue) {
                 return [
                     'value' => $item['value'],
-                    'text' => $item['text']
+                    'text' => $item['text'],
                 ];
             }
 
@@ -134,8 +137,8 @@ class NewSelectUIObject extends AbstractUIObject
     }
 
     /**
-     * @param array $item
-     * @return boolean
+     * @param  array  $item
+     * @return bool
      */
     public static function hasChildren($item)
     {
@@ -143,7 +146,7 @@ class NewSelectUIObject extends AbstractUIObject
     }
 
     /**
-     * @param array $item
+     * @param  array  $item
      * @return array
      */
     public static function getChildren($item)
@@ -159,7 +162,7 @@ class NewSelectUIObject extends AbstractUIObject
     {
         $args = [
             'items' => $items,
-            'selectedItemValue' => $value
+            'selectedItemValue' => $value,
         ];
 
         return View::make('board::components/UIObjects/NewSelect/newSelectItem', $args)->render();

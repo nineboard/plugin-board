@@ -216,5 +216,8 @@
       "xpressengine/installer": true,
       "wikimedia/composer-merge-plugin": true
     }
+  },
+  "require-dev": {
+    "laravel/pint": "^1.0.0"
   }
 }

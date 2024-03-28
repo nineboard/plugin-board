@@ -5,17 +5,19 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board;
 
-use Xpressengine\Trash\RecycleBinInterface;
-use Xpressengine\Plugins\Board\Models\Board;
 use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
+use Xpressengine\Plugins\Board\Models\Board;
+use Xpressengine\Trash\RecycleBinInterface;
 
 /**
  * RecycleBin
@@ -23,15 +25,15 @@ use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
  * Core Trash 에서 처리될 휴지통 구현체
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class RecycleBin implements RecycleBinInterface
 {
-
     /**
      * 휴지통 이름 반환
      *

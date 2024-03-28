@@ -1,8 +1,7 @@
 <?php
+
 namespace Xpressengine\Plugins\Board\Components\Widgets\ArticleList\Skins\Basic;
 
-use Xpressengine\Skin\GenericSkin;
-use View;
 use Xpressengine\Plugins\Board\Components\Widgets\ArticleList\Skins\Gallery\GallerySkin;
 
 class BasicCardSkin extends GallerySkin
@@ -14,20 +13,22 @@ class BasicCardSkin extends GallerySkin
 
     public static function view($view)
     {
-        $dir = static::$viewDir ? '.' . static::$viewDir : '';
-        $view = str_replace('/', '.', static::$path) . "$dir.widget-card";
+        $dir = static::$viewDir ? '.'.static::$viewDir : '';
+        $view = str_replace('/', '.', static::$path)."$dir.widget-card";
+
         return $view;
     }
 
     public static function info($key = null, $default = null)
     {
         if (static::$info === null) {
-            static::$info = include(base_path(static::getPath().'/'.'info-card.php'));
+            static::$info = include base_path(static::getPath().'/'.'info-card.php');
         }
 
         if ($key !== null) {
             return array_get(static::$info, $key, $default);
         }
+
         return static::$info;
     }
 }

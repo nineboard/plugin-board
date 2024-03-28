@@ -5,27 +5,30 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board;
 
-use Xpressengine\Config\ConfigManager;
 use Xpressengine\Config\ConfigEntity;
-use Xpressengine\DynamicField\ConfigHandler as DynamicFieldConfigHandler;
+use Xpressengine\Config\ConfigManager;
 use Xpressengine\Document\ConfigHandler as DocumentConfigHandler;
+use Xpressengine\DynamicField\ConfigHandler as DynamicFieldConfigHandler;
 
 /**
  * ConfigHandler
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class ConfigHandler
@@ -110,9 +113,9 @@ class ConfigHandler
     /**
      * create instance
      *
-     * @param ConfigManager             $configManager config manager
-     * @param DynamicFieldConfigHandler $dynamicField  dynamic field config handler
-     * @param DocumentConfigHandler     $document      document config handler
+     * @param  ConfigManager  $configManager  config manager
+     * @param  DynamicFieldConfigHandler  $dynamicField  dynamic field config handler
+     * @param  DocumentConfigHandler  $document  document config handler
      */
     public function __construct(
         ConfigManager $configManager,
@@ -144,7 +147,7 @@ class ConfigHandler
     /**
      * 기본 게시판 설정 등록
      *
-     * @param array $args config arguments
+     * @param  array  $args  config arguments
      * @return ConfigEntity
      */
     public function addDefault(array $args)
@@ -155,7 +158,7 @@ class ConfigHandler
     /**
      * 기본 게시판 설정 수정
      *
-     * @param array $args config arguments
+     * @param  array  $args  config arguments
      * @return ConfigEntity
      */
     public function putDefault(array $args)
@@ -166,7 +169,7 @@ class ConfigHandler
     /**
      * 게시판 인스턴스 설정 이름 반환
      *
-     * @param string $boardId board id
+     * @param  string  $boardId  board id
      * @return string
      */
     private function name($boardId)
@@ -177,8 +180,9 @@ class ConfigHandler
     /**
      * add config
      *
-     * @param array $params parameters
+     * @param  array  $params  parameters
      * @return ConfigEntity
+     *
      * @throws \Xpressengine\Config\Exceptions\InvalidArgumentException
      */
     public function add(array $params)
@@ -189,8 +193,9 @@ class ConfigHandler
     /**
      * put config
      *
-     * @param array $params parameters
+     * @param  array  $params  parameters
      * @return ConfigEntity
+     *
      * @throws \Xpressengine\Config\Exceptions\InvalidArgumentException
      */
     public function put(array $params)
@@ -201,7 +206,7 @@ class ConfigHandler
     /**
      * modify config
      *
-     * @param ConfigEntity $config config entity
+     * @param  ConfigEntity  $config  config entity
      * @return ConfigEntity
      */
     public function modify(ConfigEntity $config)
@@ -212,7 +217,7 @@ class ConfigHandler
     /**
      * remove config
      *
-     * @param ConfigEntity $config board config entity
+     * @param  ConfigEntity  $config  board config entity
      * @return void
      */
     public function remove(ConfigEntity $config)
@@ -233,25 +238,27 @@ class ConfigHandler
         }
 
         $configs = $this->configManager->children($parent);
+
         return $configs;
     }
 
     /**
      * get board config
      *
-     * @param string $boardId board id
+     * @param  string  $boardId  board id
      * @return ConfigEntity
      */
     public function get($boardId)
     {
         $config = $this->configManager->get($this->name($boardId));
+
         return $config;
     }
 
     /**
      * get dynamic field config list
      *
-     * @param ConfigEntity $config board config entity
+     * @param  ConfigEntity  $config  board config entity
      * @return array
      */
     public function getDynamicFields(ConfigEntity $config)
@@ -260,13 +267,14 @@ class ConfigHandler
         if (count($configs) == 0) {
             return [];
         }
+
         return $configs;
     }
 
     /**
      * get document config
      *
-     * @param string $boardId board id
+     * @param  string  $boardId  board id
      * @return ConfigEntity
      */
     public function getDocument($boardId)
@@ -277,7 +285,7 @@ class ConfigHandler
     /**
      * get sort list columns
      *
-     * @param ConfigEntity $config board config
+     * @param  ConfigEntity  $config  board config
      * @return array
      */
     public function getSortListColumns(ConfigEntity $config)
@@ -322,7 +330,7 @@ class ConfigHandler
     /**
      * get sort form columns
      *
-     * @param ConfigEntity $config board config
+     * @param  ConfigEntity  $config  board config
      * @return array
      */
     public function getSortFormColumns(ConfigEntity $config)

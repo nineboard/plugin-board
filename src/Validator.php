@@ -5,17 +5,19 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board;
 
 use Xpressengine\Config\ConfigEntity;
-use Xpressengine\User\Models\Guest;
 use Xpressengine\DynamicField\DynamicFieldHandler;
+use Xpressengine\User\Models\Guest;
 use Xpressengine\User\UserInterface;
 
 /**
@@ -25,15 +27,15 @@ use Xpressengine\User\UserInterface;
  * 설정된 다이나믹 필드의 rule 처리
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class Validator
 {
-
     /**
      * @var ConfigHandler
      */
@@ -47,8 +49,8 @@ class Validator
     /**
      * create instance
      *
-     * @param ConfigHandler       $configHandler config handler
-     * @param DynamicFieldHandler $dynamicField  plugin register manager
+     * @param  ConfigHandler  $configHandler  config handler
+     * @param  DynamicFieldHandler  $dynamicField  plugin register manager
      */
     public function __construct(
         ConfigHandler $configHandler,
@@ -61,12 +63,12 @@ class Validator
     /**
      * get create rule
      *
-     * @param UserInterface $user   user
-     * @param ConfigEntity  $config board config entity
-     * @param array|null    $rules  rules
+     * @param  UserInterface  $user  user
+     * @param  ConfigEntity  $config  board config entity
+     * @param  array|null  $rules  rules
      * @return array
      */
-    public function getCreateRule(UserInterface $user, ConfigEntity $config, array $rules = null)
+    public function getCreateRule(UserInterface $user, ConfigEntity $config, ?array $rules = null)
     {
         $rules = $this->makeRule($config, $rules);
         if ($user instanceof Guest) {
@@ -79,12 +81,12 @@ class Validator
     /**
      * get edit rule
      *
-     * @param UserInterface $user   user
-     * @param ConfigEntity  $config board config entity
-     * @param array|null    $rules  urles
+     * @param  UserInterface  $user  user
+     * @param  ConfigEntity  $config  board config entity
+     * @param  array|null  $rules  urles
      * @return array
      */
-    public function getEditRule(UserInterface $user, ConfigEntity $config, array $rules = null)
+    public function getEditRule(UserInterface $user, ConfigEntity $config, ?array $rules = null)
     {
         $rules = $this->makeRule($config, $rules);
         if ($user instanceof Guest) {
@@ -110,11 +112,11 @@ class Validator
     /**
      * 전달된 rule 에 다이나믹필드 의 rule 을 추가해서 반환
      *
-     * @param ConfigEntity $config board config entity
-     * @param array        $rules  rules
+     * @param  ConfigEntity  $config  board config entity
+     * @param  array  $rules  rules
      * @return array
      */
-    public function makeRule(ConfigEntity $config, array $rules = null)
+    public function makeRule(ConfigEntity $config, ?array $rules = null)
     {
         if ($rules === null) {
             $rules = $this->basic();
@@ -188,7 +190,7 @@ class Validator
     public function category()
     {
         return [
-            'category_item_id' =>  'Required',
+            'category_item_id' => 'Required',
         ];
     }
 }

@@ -5,17 +5,19 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Xpressengine\Counter\Models\CounterLog;
 use Xpressengine\Document\Models\Document;
-use Xpressengine\Http\Request;
 use Xpressengine\Media\MediaManager;
 use Xpressengine\Media\Models\Media;
 use Xpressengine\Plugins\Board\Handler;
@@ -28,7 +30,6 @@ use Xpressengine\Tag\Tag;
 use Xpressengine\User\Models\Guest;
 use Xpressengine\User\Models\UnknownUser;
 use Xpressengine\User\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Board
@@ -37,10 +38,11 @@ use Illuminate\Database\Eloquent\Builder;
  * Board 모델에는 Document 에 없던 BoardCategory, BoardSlug 등 게시판을 위한 relation 을 추가.
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class Board extends Document implements CommentUsable, SeoUsable
@@ -60,7 +62,7 @@ class Board extends Document implements CommentUsable, SeoUsable
      * @var string
      */
     protected $canonical;
-    
+
     /**
      * get user id
      *
@@ -79,7 +81,7 @@ class Board extends Document implements CommentUsable, SeoUsable
     /**
      * Return is new
      *
-     * @param int $hour hour config value
+     * @param  int  $hour  hour config value
      * @return bool
      */
     public function isNew($hour)
@@ -190,6 +192,7 @@ class Board extends Document implements CommentUsable, SeoUsable
     public function getSlug()
     {
         $slug = $this->boardSlug;
+
         return $slug === null ? '' : $slug->slug;
     }
 
@@ -205,6 +208,7 @@ class Board extends Document implements CommentUsable, SeoUsable
         foreach ($files as $file) {
             $ids[] = $file->id;
         }
+
         return $ids;
     }
 
@@ -237,7 +241,6 @@ class Board extends Document implements CommentUsable, SeoUsable
     {
         return $this->belongsTo(BoardGalleryThumb::class, 'id', 'target_id');
     }
-
 
     /**
      * get slug
@@ -308,18 +311,18 @@ class Board extends Document implements CommentUsable, SeoUsable
     /**
      * Returns the link
      *
-     * @param InstanceRoute $route route instance
+     * @param  InstanceRoute  $route  route instance
      * @return string
      */
     public function getLink(InstanceRoute $route)
     {
-        return $route->url . '/show/' . $this->getKey();
+        return $route->url.'/show/'.$this->getKey();
     }
 
     /**
      * visible
      *
-     * @param Builder $query query
+     * @param  Builder  $query  query
      * @return $this
      */
     public function scopeVisible(Builder $query)
@@ -327,16 +330,16 @@ class Board extends Document implements CommentUsable, SeoUsable
         $query->where('status', static::STATUS_PUBLIC)
             ->whereIn('display', [static::DISPLAY_VISIBLE, static::DISPLAY_SECRET])
             ->where('published', static::PUBLISHED_PUBLISHED)
-            ->where(function($query){
-                $query->where('approved',static::APPROVED_APPROVED)
-                    ->orWhere($this->getTable().'.user_id',auth()->id());
+            ->where(function ($query) {
+                $query->where('approved', static::APPROVED_APPROVED)
+                    ->orWhere($this->getTable().'.user_id', auth()->id());
             });
     }
 
     /**
      * notice
      *
-     * @param Builder $query query
+     * @param  Builder  $query  query
      * @return $this
      */
     public function scopeNotice(Builder $query)
@@ -349,7 +352,7 @@ class Board extends Document implements CommentUsable, SeoUsable
     /**
      * visible with notice
      *
-     * @param Builder $query query
+     * @param  Builder  $query  query
      * @return void
      */
     public function scopeVisibleWithNotice(Builder $query)
@@ -418,7 +421,7 @@ class Board extends Document implements CommentUsable, SeoUsable
     /**
      * Set canonical url
      *
-     * @param string $url url
+     * @param  string  $url  url
      * @return $this
      */
     public function setCanonical($url)
@@ -478,8 +481,7 @@ class Board extends Document implements CommentUsable, SeoUsable
     /**
      * get display status name
      *
-     * @param int $displayCode display status code
-     *
+     * @param  int  $displayCode  display status code
      * @return string
      */
     public function getDisplayStatusName($displayCode)
@@ -487,7 +489,7 @@ class Board extends Document implements CommentUsable, SeoUsable
         $displayName = [
             self::DISPLAY_HIDDEN => 'board::displayStatusHidden',
             self::DISPLAY_SECRET => 'board::displayStatusSecret',
-            self::DISPLAY_VISIBLE => 'board::displayStatusVisible'
+            self::DISPLAY_VISIBLE => 'board::displayStatusVisible',
         ];
 
         return $displayName[$displayCode];
@@ -496,8 +498,7 @@ class Board extends Document implements CommentUsable, SeoUsable
     /**
      * get approve status name
      *
-     * @param int $approveCode approve status code
-     *
+     * @param  int  $approveCode  approve status code
      * @return string
      */
     public function getApproveStatusName($approveCode)
@@ -505,7 +506,7 @@ class Board extends Document implements CommentUsable, SeoUsable
         $approveName = [
             self::APPROVED_REJECTED => 'board::approveStatusRejected',
             self::APPROVED_WAITING => 'board::approveStatusWaiting',
-            self::APPROVED_APPROVED => 'board::approveStatusApproved'
+            self::APPROVED_APPROVED => 'board::approveStatusApproved',
         ];
 
         return $approveName[$approveCode];

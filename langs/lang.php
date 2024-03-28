@@ -44,7 +44,7 @@ return [
     ],
     'anonymityUseDescription' => [
         'ko' => '게시판을 익명 게시판으로 사용합니다.',
-        'en' => 'Use the board as an anonymous board.'
+        'en' => 'Use the board as an anonymous board.',
     ],
     'anonymityName' => [
         'ko' => '익명 이름',
@@ -72,7 +72,7 @@ return [
     ],
     'titleShowDescription' => [
         'ko' => '상세화면에서 제목 및 작성자, 작성일등을 포함한 그룹입니다.',
-        'en' => 'It is a group including the title, author, and creation date on the detail screen.'
+        'en' => 'It is a group including the title, author, and creation date on the detail screen.',
     ],
     'content' => [
         'ko' => '내용',
@@ -80,7 +80,7 @@ return [
     ],
     'contentShowDescription' => [
         'ko' => '상세화면에서 글내용을 포함한 그룹입니다.',
-        'en' => 'In the detail screen, it is a group containing the content of the text.'
+        'en' => 'In the detail screen, it is a group containing the content of the text.',
     ],
     'titleAndContent' => [
         'ko' => '제목+내용',
@@ -96,7 +96,7 @@ return [
     ],
     'writerId' => [
         'ko' => '작성자 ID',
-        'en' => 'Writer ID'
+        'en' => 'Writer ID',
     ],
     'createdAt' => [
         'ko' => '작성일',
@@ -132,7 +132,7 @@ return [
     ],
     'comment_count' => [
         'ko' => '댓글수',
-        'en' => 'Comments'
+        'en' => 'Comments',
     ],
     'read_countDescription' => [
         'ko' => '글을 조회한 수 입니다.',
@@ -140,11 +140,11 @@ return [
     ],
     'read' => [
         'ko' => '조회',
-        'en' => 'Read'
+        'en' => 'Read',
     ],
     'recommend' => [
         'ko' => '추천',
-        'en' => 'Recommend'
+        'en' => 'Recommend',
     ],
     'newPost' => [
         'ko' => '새로운 글작성',
@@ -152,7 +152,7 @@ return [
     ],
     'writeItem' => [
         'ko' => '글쓰기',
-        'en' => 'Writing'
+        'en' => 'Writing',
     ],
     'noPost' => [
         'ko' => '등록된 게시글이 없습니다.',
@@ -511,31 +511,31 @@ You may receive an error occurs in the associated function if not in a state cap
     ],
     'alreadyUseCategory' => [
         'ko' => '사용중인 카테고리입니다.',
-        'en' => 'This category is using.'
+        'en' => 'This category is using.',
     ],
     'approveStatusRejected' => [
         'ko' => '반려',
-        'en' => 'rejected'
+        'en' => 'rejected',
     ],
     'approveStatusWaiting' => [
         'ko' => '대기',
-        'en' => 'waiting'
+        'en' => 'waiting',
     ],
     'approveStatusApproved' => [
         'ko' => '승인',
-        'en' => 'approved'
+        'en' => 'approved',
     ],
     'displayStatusHidden' => [
         'ko' => '숨김',
-        'en' => 'hidden'
+        'en' => 'hidden',
     ],
     'displayStatusSecret' => [
         'ko' => '비밀',
-        'en' => 'secret'
+        'en' => 'secret',
     ],
     'displayStatusVisible' => [
         'ko' => '표시',
-        'en' => 'visible'
+        'en' => 'visible',
     ],
     'useApprove' => [
         'ko' => '승인 후 게시 사용',
@@ -553,15 +553,15 @@ You may receive an error occurs in the associated function if not in a state cap
             ],
             'public' => [
                 'ko' => '공개',
-                'en' => 'Public'
+                'en' => 'Public',
             ],
             'secret' => [
                 'ko' => '비밀',
-                'en' => 'Secret'
+                'en' => 'Secret',
             ],
             'approve' => [
                 'ko' => '승인완료',
-                'en' => 'Approved'
+                'en' => 'Approved',
             ],
             'waiting' => [
                 'ko' => '승인대기',
@@ -580,11 +580,11 @@ You may receive an error occurs in the associated function if not in a state cap
         ],
         'approveSetReject' => [
             'ko' => '승인반려',
-            'en' => 'Reject'
+            'en' => 'Reject',
         ],
         'approveSetApprove' => [
             'ko' => '게시승인',
-            'en' => 'Approve'
+            'en' => 'Approve',
         ],
         'state' => [
             'ko' => '상태',
@@ -597,19 +597,19 @@ You may receive an error occurs in the associated function if not in a state cap
     ],
     'totalArticleCount' => [
         'ko' => '전체 게시물 수',
-        'en' => 'Number of total articles'
+        'en' => 'Number of total articles',
     ],
     'searchArticleCount' => [
         'ko' => '검색된 게시물 수',
-        'en' => 'Number of searched articles'
+        'en' => 'Number of searched articles',
     ],
     'like' => [
         'ko' => '추천',
-        'en' => 'Like'
+        'en' => 'Like',
     ],
     'hate' => [
         'ko' => '비추천',
-        'en' => 'Hate'
+        'en' => 'Hate',
     ],
     'useConsultation' => [
         'ko' => '상담 기능',

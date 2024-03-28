@@ -1,7 +1,8 @@
 <?php
+
 return [
     'support' => [
         'mobile' => true,
-        'desktop' => true
-    ]
+        'desktop' => true,
+    ],
 ];

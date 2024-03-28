@@ -1,4 +1,5 @@
 <?php
+
 return [
     'setting' => [
         'sample_text' => [
@@ -11,6 +12,6 @@ return [
     ],
     'support' => [
         'mobile' => true,
-        'desktop' => true
-    ]
+        'desktop' => true,
+    ],
 ];

@@ -5,17 +5,19 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Components\UIObjects\Tag;
 
-use Xpressengine\UIObject\AbstractUIObject;
 use View;
 use XePlugin;
+use Xpressengine\UIObject\AbstractUIObject;
 
 /**
  * Tag
@@ -23,10 +25,11 @@ use XePlugin;
  * 게시판 글 등록할 때 slug 지원하는 input box
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class TagUIObject extends AbstractUIObject
@@ -63,7 +66,6 @@ class TagUIObject extends AbstractUIObject
             $args['strTags'] = sprintf('["%s"]', implode('","', $tagWords));
         }
 
-
         if (empty($args['id'])) {
             $args['id'] = 'xeBoardTagWrap';
         }
@@ -91,6 +93,7 @@ class TagUIObject extends AbstractUIObject
         }
 
         $plugin = XePlugin::getPlugin('board');
+
         return View::make('board::components/UIObjects/Tag/tag', $args)->render();
     }
 }

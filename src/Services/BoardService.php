@@ -5,25 +5,27 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Services;
 
 use Auth;
 use Event;
+use Gate;
 use Illuminate\Support\Collection;
 use XeEditor;
-use XeCaptcha;
 use Xpressengine\Category\Models\Category;
 use Xpressengine\Category\Models\CategoryItem;
 use Xpressengine\Config\ConfigEntity;
 use Xpressengine\Document\Models\Document;
-use Xpressengine\Editor\PurifierModules\EditorTool;
 use Xpressengine\Http\Request;
+use Xpressengine\Permission\Instance;
 use Xpressengine\Plugins\Board\ConfigHandler;
 use Xpressengine\Plugins\Board\Exceptions\CaptchaNotVerifiedException;
 use Xpressengine\Plugins\Board\Exceptions\GuestWrittenSecretDocumentException;
@@ -33,20 +35,18 @@ use Xpressengine\Plugins\Board\Handler;
 use Xpressengine\Plugins\Board\IdentifyManager;
 use Xpressengine\Plugins\Board\Models\Board;
 use Xpressengine\Support\Exceptions\AccessDeniedHttpException;
-use Xpressengine\Support\PurifierModules\Html5;
 use Xpressengine\User\Models\Guest;
 use Xpressengine\User\UserInterface;
-use Gate;
-use Xpressengine\Permission\Instance;
 
 /**
  * BoardService
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class BoardService
@@ -63,8 +63,9 @@ class BoardService
 
     /**
      * BoardService constructor.
-     * @param Handler       $handler       board handler
-     * @param ConfigHandler $configHandler board config handler
+     *
+     * @param  Handler  $handler  board handler
+     * @param  ConfigHandler  $configHandler  board config handler
      */
     public function __construct(Handler $handler, ConfigHandler $configHandler)
     {
@@ -75,9 +76,9 @@ class BoardService
     /**
      * get notice list
      *
-     * @param Request      $request request
-     * @param ConfigEntity $config  board config entity
-     * @param string       $userId  user id
+     * @param  Request  $request  request
+     * @param  ConfigEntity  $config  board config entity
+     * @param  string  $userId  user id
      * @return mixed
      */
     public function getNoticeItems(Request $request, ConfigEntity $config, $userId)
@@ -109,9 +110,9 @@ class BoardService
     /**
      * get article list
      *
-     * @param Request      $request request
-     * @param ConfigEntity $config  board config entity
-     * @param string|null  $id      document id
+     * @param  Request  $request  request
+     * @param  ConfigEntity  $config  board config entity
+     * @param  string|null  $id  document id
      * @return mixed
      */
     public function getItems(Request $request, ConfigEntity $config, $id = null)
@@ -177,15 +178,15 @@ class BoardService
         }
 
         $paginate = $query->paginate($config->get('perPage'))->appends($request->except('page'));
+
         return $paginate;
     }
 
     /**
      * 신규 스킨 상세보기 페이지에서 사용할 동일 게시판의 최근 글 반
      *
-     * @param ConfigEntity $config        board config entity환
-     * @param string       $currentItemId current show board item id
-     *
+     * @param  ConfigEntity  $config  board config entity환
+     * @param  string  $currentItemId  current show board item id
      * @return Collection
      */
     public function getBoardMoreItems(ConfigEntity $config, $currentItemId)
@@ -203,14 +204,14 @@ class BoardService
                 sprintf('%s.%s', 'board_category', 'target_id')
             );
         }
-        
+
         return $query->take(4)->orderByDesc('head')->get();
     }
 
     /**
      * get category item list
      *
-     * @param ConfigEntity $config board config entity
+     * @param  ConfigEntity  $config  board config entity
      * @return array
      */
     public function getCategoryItems(ConfigEntity $config)
@@ -233,7 +234,7 @@ class BoardService
     /**
      * get category item tree
      *
-     * @param ConfigEntity $config board config entity
+     * @param  ConfigEntity  $config  board config entity
      * @return array
      */
     public function getCategoryItemsTree(ConfigEntity $config)
@@ -248,7 +249,7 @@ class BoardService
                 $categoryItemData = [
                     'value' => $categoryItem->id,
                     'text' => xe_trans($categoryItem->word),
-                    'children' => $this->getCategoryItemChildrenData($categoryItem)
+                    'children' => $this->getCategoryItemChildrenData($categoryItem),
                 ];
 
                 $items[] = $categoryItemData;
@@ -262,8 +263,7 @@ class BoardService
     /**
      * get category item data
      *
-     * @param CategoryItem $categoryItem target category
-     *
+     * @param  CategoryItem  $categoryItem  target category
      * @return array
      */
     private function getCategoryItemChildrenData(CategoryItem $categoryItem)
@@ -279,7 +279,7 @@ class BoardService
             $childrenData[] = [
                 'value' => $child->id,
                 'text' => xe_trans($child->word),
-                'children' => $this->getCategoryItemChildrenData($child)
+                'children' => $this->getCategoryItemChildrenData($child),
             ];
         }
 
@@ -289,8 +289,8 @@ class BoardService
     /**
      * get category item
      *
-     * @param ConfigEntity $config board config entity
-     * @param Board        $item   board model
+     * @param  ConfigEntity  $config  board config entity
+     * @param  Board  $item  board model
      * @return null
      */
     public function getCategoryItem(ConfigEntity $config, Board $item)
@@ -299,35 +299,36 @@ class BoardService
         if ($config->get('category') && $item->boardCategory) {
             $showCategoryItem = $item->boardCategory->category_item;
         }
+
         return $showCategoryItem;
     }
 
     /**
      * get dynamic field types
      *
-     * @param ConfigEntity $config board config entity
+     * @param  ConfigEntity  $config  board config entity
      * @return array
      */
     public function getFieldTypes(ConfigEntity $config)
     {
-        return (array)$this->configHandler->getDynamicFields($config);
+        return (array) $this->configHandler->getDynamicFields($config);
     }
 
     /**
      * get search option array
      *
-     * @param Request $request request
+     * @param  Request  $request  request
      * @return array
      */
     public function getSearchOptions(Request $request)
     {
         $searchType = ['title_pure_content' => 'board::titleAndContent',
-                    'title_content' => 'board::title',
-                    'writer' => 'board::writer',
-                    'category_item_id' => 'xe::category',
-                    'start_created_at' => 'board::startDate',
-                    'end_created_at' => 'board::endDate',
-                    'searchTag' => 'xe::tag'];
+            'title_content' => 'board::title',
+            'writer' => 'board::writer',
+            'category_item_id' => 'xe::category',
+            'start_created_at' => 'board::startDate',
+            'end_created_at' => 'board::endDate',
+            'searchTag' => 'xe::tag'];
 
         $searchOption = [];
 
@@ -351,10 +352,10 @@ class BoardService
     /**
      * get article
      *
-     * @param string        $id     document id
-     * @param UserInterface $user   user
-     * @param ConfigEntity  $config board config entity
-     * @param bool          $force  force
+     * @param  string  $id  document id
+     * @param  UserInterface  $user  user
+     * @param  ConfigEntity  $config  board config entity
+     * @param  bool  $force  force
      * @return Board
      */
     public function getItem($id, UserInterface $user, ConfigEntity $config, $force = false)
@@ -416,7 +417,7 @@ class BoardService
     /**
      * check captcha configuration
      *
-     * @param ConfigEntity $config board config entity
+     * @param  ConfigEntity  $config  board config entity
      * @return void
      */
     public function checkCaptcha(ConfigEntity $config)
@@ -431,10 +432,10 @@ class BoardService
     /**
      * store board item
      *
-     * @param Request         $request         request
-     * @param UserInterface   $user            user
-     * @param ConfigEntity    $config          board config entity
-     * @param IdentifyManager $identifyManager identify manager
+     * @param  Request  $request  request
+     * @param  UserInterface  $user  user
+     * @param  ConfigEntity  $config  board config entity
+     * @param  IdentifyManager  $identifyManager  identify manager
      * @return Board
      */
     public function store(Request $request, UserInterface $user, ConfigEntity $config, IdentifyManager $identifyManager)
@@ -464,11 +465,11 @@ class BoardService
     /**
      * update article
      *
-     * @param Board           $item            board model item
-     * @param Request         $request         request
-     * @param UserInterface   $user            user
-     * @param ConfigEntity    $config          board config entity
-     * @param IdentifyManager $identifyManager identify manager
+     * @param  Board  $item  board model item
+     * @param  Request  $request  request
+     * @param  UserInterface  $user  user
+     * @param  ConfigEntity  $config  board config entity
+     * @param  IdentifyManager  $identifyManager  identify manager
      * @return Board
      */
     public function update(
@@ -523,9 +524,9 @@ class BoardService
     /**
      * destroy article
      *
-     * @param Board           $item            board model item
-     * @param ConfigEntity    $config          board config entity
-     * @param IdentifyManager $identifyManager identify manager
+     * @param  Board  $item  board model item
+     * @param  ConfigEntity  $config  board config entity
+     * @param  IdentifyManager  $identifyManager  identify manager
      * @return void
      */
     public function destroy(Board $item, ConfigEntity $config, IdentifyManager $identifyManager)
@@ -541,11 +542,10 @@ class BoardService
     /**
      * has article permission
      *
-     * @param Board           $item            board model item
-     * @param UserInterface   $user            user
-     * @param IdentifyManager $identifyManager identify manager
-     * @param bool            $force           force
-     *
+     * @param  Board  $item  board model item
+     * @param  UserInterface  $user  user
+     * @param  IdentifyManager  $identifyManager  identify manager
+     * @param  bool  $force  force
      * @return bool
      */
     public function hasItemPerm(Board $item, UserInterface $user, IdentifyManager $identifyManager, $force = false)
@@ -559,6 +559,7 @@ class BoardService
             $identifyManager->identified($item) === true) {
             $perm = true;
         }
+
         return $perm;
     }
 }

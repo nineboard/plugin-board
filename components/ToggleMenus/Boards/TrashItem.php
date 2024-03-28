@@ -5,19 +5,21 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
+
 namespace Xpressengine\Plugins\Board\Components\ToggleMenus\Boards;
 
 use Gate;
-use Xpressengine\Plugins\Board\Models\Board;
-use Xpressengine\Plugins\Board\BoardPermissionHandler;
-use Xpressengine\ToggleMenu\AbstractToggleMenu;
 use Xpressengine\Permission\Instance;
+use Xpressengine\Plugins\Board\BoardPermissionHandler;
+use Xpressengine\Plugins\Board\Models\Board;
+use Xpressengine\ToggleMenu\AbstractToggleMenu;
 
 /**
  * TrashItem
@@ -26,10 +28,11 @@ use Xpressengine\Permission\Instance;
  * 팝업 메뉴에 휴지통으로 이동 처리
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class TrashItem extends AbstractToggleMenu
@@ -54,7 +57,7 @@ class TrashItem extends AbstractToggleMenu
                 new Instance($boardPermission->name($doc->instance_id))
             )) {
                 $isManger = true;
-            };
+            }
         }
 
         return $isManger;
@@ -91,12 +94,12 @@ class TrashItem extends AbstractToggleMenu
 
         $url = app('xe.board.url')->get('trash', ['id' => $this->identifier], $doc->instance_id);
 
-        return 'var url = "' . $url . '" + window.location.search;
+        return 'var url = "'.$url.'" + window.location.search;
             XE.ajax(url, {
                 type: "post",
                 dataType: "json",
                 data: {
-                    id: "' . $this->identifier . '"
+                    id: "'.$this->identifier.'"
                 },
                 success: function (data) {
                     location.replace(data.links.href);

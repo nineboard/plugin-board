@@ -5,30 +5,31 @@
  * PHP version 7
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 
 namespace Xpressengine\Plugins\Board\Components\Skins\Board\Common;
 
+use Gate;
+use View;
+use XeFrontend;
+use XePresenter;
+use XeRegister;
+use XeSkin;
+use Xpressengine\Config\ConfigEntity;
 use Xpressengine\DynamicField\ColumnEntity;
 use Xpressengine\DynamicField\DynamicFieldHandler;
+use Xpressengine\Menu\Models\MenuItem;
 use Xpressengine\Permission\Instance;
 use Xpressengine\Plugins\Board\BoardPermissionHandler;
+use Xpressengine\Plugins\Board\Components\DynamicFields\Category\Skins\DesignSelect\DesignSelectSkin;
 use Xpressengine\Plugins\Board\Components\Modules\BoardModule;
 use Xpressengine\Plugins\Board\GenericBoardSkin;
-use View;
-use Gate;
-use XeFrontend;
-use XeRegister;
-use XePresenter;
-Use XeSkin;
-use Xpressengine\Config\ConfigEntity;
-use Xpressengine\Menu\Models\MenuItem;
-use Xpressengine\Plugins\Board\Components\DynamicFields\Category\Skins\DesignSelect\DesignSelectSkin;
 use Xpressengine\Presenter\Presenter;
 use Xpressengine\Routing\InstanceConfig;
 
@@ -36,10 +37,11 @@ use Xpressengine\Routing\InstanceConfig;
  * CommonSkin
  *
  * @category    Board
- * @package     Xpressengine\Plugins\Board
+ *
  * @author      XE Developers <developers@xpressengine.com>
  * @copyright   2019 Copyright XEHub Corp. <https://www.xehub.io>
  * @license     http://www.gnu.org/licenses/lgpl-3.0-standalone.html LGPL
+ *
  * @link        https://xpressengine.io
  */
 class CommonSkin extends GenericBoardSkin
@@ -48,6 +50,7 @@ class CommonSkin extends GenericBoardSkin
 
     /**
      * @var array
+     *
      * @deprecated beta.24.
      */
     protected $defaultListColumns = [
@@ -56,6 +59,7 @@ class CommonSkin extends GenericBoardSkin
 
     /**
      * @var array
+     *
      * @deprecated beta.24.
      */
     protected $defaultSelectedListColumns = [
@@ -64,6 +68,7 @@ class CommonSkin extends GenericBoardSkin
 
     /**
      * @var array
+     *
      * @deprecated beta.24.
      */
     protected $defaultFormColumns = [
@@ -72,12 +77,12 @@ class CommonSkin extends GenericBoardSkin
 
     /**
      * @var array
+     *
      * @deprecated beta.24.
      */
     protected $defaultSelectedFormColumns = [
         'title', 'content',
     ];
-
 
     /**
      * intercept DynamicField 업데이트
@@ -85,14 +90,15 @@ class CommonSkin extends GenericBoardSkin
      * beta.24. 정렬 기능을 게시판 고유 기능으로 변경
      *
      * @return void
+     *
      * @deprecated beta.24. use Plugin\Resources::interceptDynamicField() instead
      */
     public static function interceptDynamicField()
     {
         intercept(
-            DynamicFieldHandler::class . '@create',
+            DynamicFieldHandler::class.'@create',
             'board@commonSkin::createDynamicField',
-            function ($func, ConfigEntity $config, ColumnEntity $column = null) {
+            function ($func, ConfigEntity $config, ?ColumnEntity $column = null) {
                 $func($config, $column);
 
                 // remove prefix name of group
@@ -153,9 +159,9 @@ class CommonSkin extends GenericBoardSkin
          * CommonSkin extends by other Skins. Extended Skin can make just 'index.blade.php'
          * and other blade files will use to CommonSkin's blade files.
          */
-//        if ($this->view != 'index') {
-//            static::$path = self::$path;
-//        }
+        //        if ($this->view != 'index') {
+        //            static::$path = self::$path;
+        //        }
         /**
          * If view file is not exists to extended skin component then change view path to CommonSkin's path.
          * CommonSkin extends by other Skins. Extended Skin can make own blade files.
@@ -194,12 +200,12 @@ class CommonSkin extends GenericBoardSkin
     protected function setSkinConfig()
     {
         // 기본 설정
-//        if (empty($this->config['listColumns'])) {
-//            $this->config['listColumns'] = $this->data['config']->get('listColumns');
-//        }
-//        if (empty($this->config['formColumns'])) {
-//            $this->config['formColumns'] = $this->data['config']->get('formColumns');
-//        }
+        //        if (empty($this->config['listColumns'])) {
+        //            $this->config['listColumns'] = $this->data['config']->get('listColumns');
+        //        }
+        //        if (empty($this->config['formColumns'])) {
+        //            $this->config['formColumns'] = $this->data['config']->get('formColumns');
+        //        }
         $this->config['listColumns'] = $this->data['config']->get('listColumns');
         $this->config['formColumns'] = $this->data['config']->get('formColumns');
         $this->data['skinConfig'] = $this->config;
@@ -220,6 +226,7 @@ class CommonSkin extends GenericBoardSkin
      * set pagination presenter
      *
      * @return void
+     *
      * @see views/defaultSkin/index.blade.php
      */
     protected function setPaginationPresenter()
@@ -280,7 +287,7 @@ class CommonSkin extends GenericBoardSkin
 
             $boardList[] = [
                 'value' => $config->get('boardId'),
-                'text' => '_custom_::' . $title,
+                'text' => '_custom_::'.$title,
             ];
         }
         $this->data['boardList'] = $boardList;
@@ -306,7 +313,7 @@ class CommonSkin extends GenericBoardSkin
     /**
      * get setting view
      *
-     * @param array $config board config
+     * @param  array  $config  board config
      * @return \Illuminate\Contracts\Support\Renderable|string
      */
     public function renderSetting(array $config = [])
@@ -314,27 +321,26 @@ class CommonSkin extends GenericBoardSkin
         /**
          * beta.24
          * 스킨 설정의 컬럼 정보 수정 기능은 게시판 컬럼 설정으로 이동
-         *
          */
-//        if (static::class == self::class) {
-//            if ($config === []) {
-//                $config = [
-//                    'listColumns' => $this->defaultSelectedListColumns,
-//                    'formColumns' => $this->defaultSelectedFormColumns,
-//                ];
-//            }
-//
-//            $arr = explode(':', request()->get('instanceId'));
-//            $instanceId = $arr[1];
-//
-//            return View::make(sprintf('%s/views/setting', CommonSkin::$path), [
-//                'sortListColumns' => $this->getSortListColumns($config, $instanceId),
-//                'sortFormColumns' => $this->getSortFormColumns($config, $instanceId),
-//                'config' => $config
-//            ]);
-//        } else {
-//            return parent::renderSetting($config);
-//        }
+        //        if (static::class == self::class) {
+        //            if ($config === []) {
+        //                $config = [
+        //                    'listColumns' => $this->defaultSelectedListColumns,
+        //                    'formColumns' => $this->defaultSelectedFormColumns,
+        //                ];
+        //            }
+        //
+        //            $arr = explode(':', request()->get('instanceId'));
+        //            $instanceId = $arr[1];
+        //
+        //            return View::make(sprintf('%s/views/setting', CommonSkin::$path), [
+        //                'sortListColumns' => $this->getSortListColumns($config, $instanceId),
+        //                'sortFormColumns' => $this->getSortFormColumns($config, $instanceId),
+        //                'config' => $config
+        //            ]);
+        //        } else {
+        //            return parent::renderSetting($config);
+        //        }
 
         return parent::renderSetting($config);
     }
@@ -342,9 +348,10 @@ class CommonSkin extends GenericBoardSkin
     /**
      * get sort list columns
      *
-     * @param array  $config     board config
-     * @param string $instanceId board instance id
+     * @param  array  $config  board config
+     * @param  string  $instanceId  board instance id
      * @return array
+     *
      * @deprecated since beta.24. use ConfigHandler::getSortListColumns() instead
      */
     protected function getSortListColumns(array $config, $instanceId)
@@ -387,9 +394,10 @@ class CommonSkin extends GenericBoardSkin
     /**
      * get sort form columns
      *
-     * @param array  $config     board config
-     * @param string $instanceId board instance id
+     * @param  array  $config  board config
+     * @param  string  $instanceId  board instance id
      * @return array
+     *
      * @deprecated since beta.24. use ConfigHandler::getSortFormColumns() instead
      */
     protected function getSortFormColumns(array $config, $instanceId)
@@ -436,6 +444,7 @@ class CommonSkin extends GenericBoardSkin
     protected function isManager()
     {
         $boardPermission = app('xe.board.permission');
+
         return isset($this->data['instanceId']) && Gate::allows(
             BoardPermissionHandler::ACTION_MANAGE,
             new Instance($boardPermission->name($this->data['instanceId']))
