@@ -213,8 +213,8 @@
   ],
   "config": {
     "allow-plugins": {
-      "xpressengine/installer": false,
-      "wikimedia/composer-merge-plugin": false
+      "xpressengine/installer": true,
+      "wikimedia/composer-merge-plugin": true
     }
   }
 }
