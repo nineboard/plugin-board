@@ -184,9 +184,9 @@
     }
   },
   "require": {
-    "nineboard/nineboard": "dev-main",
-    "nineboard/plugin-ckeditor": "dev-main",
-    "nineboard/plugin-comment": "dev-main"
+    "nineboard/nineboard": "^3.0.0",
+    "nineboard/plugin-ckeditor": "^1.0.0",
+    "nineboard/plugin-comment": "^1.0.0"
   },
   "autoload": {
     "psr-4": {
